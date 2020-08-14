@@ -1,0 +1,1 @@
+// This is the page users will see when they first enter the app. It should show images of happy truck drivers (with a react carousel like from part 3 of this: https://git.generalassemb.ly/seir-622/react-bootstrap

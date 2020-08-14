@@ -1,0 +1,1 @@
+// Create a page that will allows users to update their email, password and name. Make sure a user cannot save without a name, email and password. Make sure you have a password confirm field.
