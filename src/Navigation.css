@@ -1,14 +1,9 @@
-.header {
+.header.container {
 	background-color: rgb(235, 231, 6);
-	height: fit-content;
-	justify-content: center;
 	text-align: center;
+	max-width: 100%;
 }
 
-.nav-header {
-	padding-left: 0px;
-	padding-right: 0px;
-}
 .links {
 	align-items: center;
 }

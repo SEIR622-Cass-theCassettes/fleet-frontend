@@ -6,7 +6,7 @@ import { Nav, Container, Row, Col, Navbar } from 'react-bootstrap';
 class Navigation extends Component {
 	render() {
 		return (
-			<Container className='header' style={{ maxWidth: '100%' }}>
+			<Container className='header'>
 				<Row>
 					<Col>
 						<h1>Fleet</h1>

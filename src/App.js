@@ -6,13 +6,11 @@ import { Container, Row, Col } from 'react-bootstrap';
 class App extends Component {
 	render() {
 		return (
-			<Container className='App' style={{ maxWidth: '100%' }}>
-				<Row>
-					<Col>
-						<Navigation />
-					</Col>
-				</Row>
-				<h1>testity test test test</h1>
+			<Container className='app'>
+				<Navigation />
+				<Container>
+					<h1>testity test test test</h1>
+				</Container>
 			</Container>
 		);
 	}
