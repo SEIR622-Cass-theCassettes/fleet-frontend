@@ -13,7 +13,7 @@ class App extends Component {
 					<h1>testity test test test</h1>
 				</Container>
 				<Container>
-					<Route exact path='/home' render={() => <Home />} />
+					<Route exact path='/' render={() => <Home />} />
 				</Container>
 			</Container>
 		);
