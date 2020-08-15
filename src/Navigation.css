@@ -1,0 +1,9 @@
+.header.container {
+	background-color: rgb(235, 231, 6);
+	text-align: center;
+	max-width: 100%;
+}
+
+.links {
+	align-items: center;
+}
