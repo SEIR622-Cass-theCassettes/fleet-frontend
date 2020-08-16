@@ -3,3 +3,19 @@
   padding-left: 0px;
   padding-right: 0px;
 }
+
+.header.container {
+	background-color: rgb(235, 231, 6);
+	text-align: center;
+	max-width: 100%;
+}
+
+.links {
+	align-items: center;
+}
+
+.header p {
+  text-decoration: underline;
+  color: black;
+  padding-right: 10px;
+}

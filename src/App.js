@@ -1,19 +1,55 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
 import './App.css';
-import Navigation from './Navigation';
-import Home from './Home'
-import { Container, Row, Col } from 'react-bootstrap';
+import Home from './Home';
+import SignIn from './SignIn';
+import { Nav, Container, Row, Col, Navbar } from 'react-bootstrap';
 class App extends Component {
 	render() {
 		return (
 			<Container className='app'>
-				<Navigation />
-				<Container>
-					<h1>testity test test test</h1>
+				<Container className='header'>
+					<Row>
+						<Col>
+							<h1>Fleet</h1>
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							<Navbar className='links'>
+								<Nav>
+									<Link to='/'>
+										<p>Home</p>
+									</Link>
+									<Link to='/signIn'>
+										<p>Sign in</p>
+									</Link>
+									<p>My Trucks</p>
+									<p>My Profile</p>
+									<p>Log Off</p>
+									<p>About Us</p>
+								</Nav>
+							</Navbar>
+						</Col>
+					</Row>
 				</Container>
 				<Container>
-					<Route exact path='/' render={() => <Home />} />
+					<h1>Welcome To The Fleet!</h1>
+				</Container>
+				<Container>
+					<Route
+						exact
+						path='/'
+						render={() => {
+							return <Home return />;
+						}}
+					/>
+					<Route
+						path='/signIn'
+						render={() => {
+							return <SignIn return />;
+						}}
+					/>
 				</Container>
 			</Container>
 		);
