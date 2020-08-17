@@ -60,6 +60,8 @@ class App extends Component {
 						path='/myProfile'
 						render={() => {
 							return <Profile return />;
+						}}
+						/>
 					<Route
 						path='/SingleTruck'
 						render={() => {
