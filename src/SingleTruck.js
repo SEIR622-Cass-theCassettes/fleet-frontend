@@ -6,13 +6,8 @@ class SingleTruck extends Component {
 	constructor() {
 		super();
 		this.state = {
-<<<<<<< HEAD
 			truck: null,
 			show: false,
-=======
-            truck: null,
-            show: false
->>>>>>> test info and modal added
 		};
 	}
 
@@ -27,7 +22,6 @@ class SingleTruck extends Component {
 	// 		});
 	// }
 	render() {
-<<<<<<< HEAD
         const handleChange = ((event) => {
             	this.setState({
 								[event.target.name]: event.target.value,
@@ -45,14 +39,6 @@ class SingleTruck extends Component {
 		return (
 			<div className='info'>
 				{/* this is what will end up being used once everything is set up */}
-=======
-		const handleClose = () => this.setState({show: false})
-		const handleShow = () => this.setState({ show: true });
-		return (
-			<div className='info'>
-
-                {/* this is what will end up being used once everything is set up */}
->>>>>>> test info and modal added
 				{/* <h2>Truck Name: {this.state.truck.name}</h2> */}
 				{/* <p>Vin: {this.state.truck.vin}</p> */}
 				{/* <p>Make: {this.state.truck.make}</p> */}
@@ -62,12 +48,6 @@ class SingleTruck extends Component {
 				{/* <p>Last Serviced: {this.state.truck.lastServiced}</p> */}
 				{/* <p>Service Due: {this.state.truck.serviceDue}</p> */}
 				{/* <p>Last Users: {this.state.truck.lastUsers}</p> */}
-
-<<<<<<< HEAD
-				{/* just for testing purposes */}
-=======
-                {/* just for testing purposes */}
->>>>>>> test info and modal added
 				<h2>Truck Name: test</h2>
 				<p>Vin: test</p>
 				<p>Make: test</p>
@@ -82,7 +62,6 @@ class SingleTruck extends Component {
 				<div>
 					<Modal show={this.state.show} onHide={handleClose}>
 						<Modal.Header closeButton>
-<<<<<<< HEAD
 							<Modal.Title>Edit Vehicle</Modal.Title>
 						</Modal.Header>
 						<Modal.Body>
@@ -154,22 +133,9 @@ class SingleTruck extends Component {
 							</form>
 						</Modal.Body>
 						<Modal.Footer>
-							<Button variant='secondary' onClick={handleClose}>
+							<Button variant='secondary' onClick={handleClose}/>
 								Close Without saving
-=======
 							<Modal.Title>Modal heading</Modal.Title>
-						</Modal.Header>
-						<Modal.Body>
-							Woohoo, you're reading this text in a modal!
-						</Modal.Body>
-						<Modal.Footer>
-							<Button variant='secondary' onClick={handleClose}>
-								Close
-							</Button>
-							<Button variant='primary' onClick={handleClose}>
-								Save Changes
->>>>>>> test info and modal added
-							</Button>
 						</Modal.Footer>
 					</Modal>
 				</div>
