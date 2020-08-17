@@ -6,8 +6,8 @@ class SingleTruck extends Component {
 	constructor() {
 		super();
 		this.state = {
-            truck: null,
-            show: false
+			truck: null,
+			show: false,
 		};
 	}
 
@@ -22,12 +22,23 @@ class SingleTruck extends Component {
 	// 		});
 	// }
 	render() {
-		const handleClose = () => this.setState({show: false})
+        const handleChange = ((event) => {
+            	this.setState({
+								[event.target.name]: event.target.value,
+							});
+        });
+
+	const handleSubmit = (event) => {
+        event.preventDefault()
+		console.log('Submitting');
+		console.log(this.state);
+	};
+		const handleClose = () => this.setState({ show: false });
 		const handleShow = () => this.setState({ show: true });
+	
 		return (
 			<div className='info'>
-
-                {/* this is what will end up being used once everything is set up */}
+				{/* this is what will end up being used once everything is set up */}
 				{/* <h2>Truck Name: {this.state.truck.name}</h2> */}
 				{/* <p>Vin: {this.state.truck.vin}</p> */}
 				{/* <p>Make: {this.state.truck.make}</p> */}
@@ -38,7 +49,7 @@ class SingleTruck extends Component {
 				{/* <p>Service Due: {this.state.truck.serviceDue}</p> */}
 				{/* <p>Last Users: {this.state.truck.lastUsers}</p> */}
 
-                {/* just for testing purposes */}
+				{/* just for testing purposes */}
 				<h2>Truck Name: test</h2>
 				<p>Vin: test</p>
 				<p>Make: test</p>
@@ -53,17 +64,79 @@ class SingleTruck extends Component {
 				<div>
 					<Modal show={this.state.show} onHide={handleClose}>
 						<Modal.Header closeButton>
-							<Modal.Title>Modal heading</Modal.Title>
+							<Modal.Title>Edit Vehicle</Modal.Title>
 						</Modal.Header>
 						<Modal.Body>
-							Woohoo, you're reading this text in a modal!
+							<form onSubmit={handleSubmit}>
+								<label htmlFor='name'>Name</label>
+								<input
+									type='text'
+									id='name'
+									name='name'
+									onChange={handleChange}></input>
+								<br />
+								<label htmlFor='vin'>Vin</label>
+								<input
+									type='text'
+									id='vin'
+									name='vin'
+									onChange={handleChange}></input>
+								<br />
+								<label htmlFor='make'>Make</label>
+								<input
+									type='text'
+									id='make'
+									name='make'
+									onChange={handleChange}></input>
+								<br />
+								<label htmlFor='model'>Model</label>
+								<input
+									type='text'
+									id='model'
+									name='model'
+									onChange={handleChange}></input>
+								<br />
+								<label htmlFor='plate'>Plate</label>
+								<input
+									type='text'
+									id='plate'
+									name='plate'
+									onChange={handleChange}></input>
+								<br />
+								<label htmlFor='status'>Status</label>
+								<input
+									type='text'
+									id='status'
+									name='status'
+									onChange={handleChange}></input>
+								<br />
+								<label htmlFor='lastServiced'>Last Service</label>
+								<input
+									type='text'
+									id='lastServiced'
+									name='lastServiced'
+									onChange={handleChange}></input>
+								<br />
+								<label htmlFor='serviceDue'>Service Due</label>
+								<input
+									type='text'
+									id='serviceDue'
+									name='serviceDue'
+									onChange={handleChange}></input>
+								<br />
+								<label htmlFor='lastUser'>Last User</label>
+								<input
+									type='text'
+									id='lastUser'
+									name='lastUser'
+									onChange={handleChange}></input>
+								<br />
+								<input type='submit' />
+							</form>
 						</Modal.Body>
 						<Modal.Footer>
 							<Button variant='secondary' onClick={handleClose}>
-								Close
-							</Button>
-							<Button variant='primary' onClick={handleClose}>
-								Save Changes
+								Close Without saving
 							</Button>
 						</Modal.Footer>
 					</Modal>
