@@ -3,6 +3,7 @@ import { Route, Link } from 'react-router-dom';
 import './App.css';
 import Home from './Home';
 import SignIn from './SignIn';
+import Profile from './Profile';
 import { Nav, Container, Row, Col, Navbar } from 'react-bootstrap';
 class App extends Component {
 	render() {
@@ -25,7 +26,9 @@ class App extends Component {
 										<p>Sign in</p>
 									</Link>
 									<p>My Trucks</p>
-									<p>My Profile</p>
+									<Link to='/myProfile'>
+										<p>My Profile</p>
+									</Link>
 									<p>Log Off</p>
 									<p>About Us</p>
 								</Nav>
@@ -48,6 +51,12 @@ class App extends Component {
 						path='/signIn'
 						render={() => {
 							return <SignIn return />;
+						}}
+					/>
+					<Route
+						path='/myProfile'
+						render={() => {
+							return <Profile return />;
 						}}
 					/>
 				</Container>

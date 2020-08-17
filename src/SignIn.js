@@ -40,6 +40,7 @@ class SignIn extends Component {
 	};
 
 	handleSubmit = (event) => {
+		event.preventDefault();
 		console.log('Submitting');
 		console.log(this.state);
 	};
