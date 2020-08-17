@@ -68,6 +68,13 @@ class App extends Component {
 							return <SingleTruck return />;
 						}}
 					/>
+
+					<Route
+						path='/SingleTruck'
+						render={() => {
+							return <SingleTruck return />;
+						}}
+					/>
 				</Container>
 			</Container>
 		);
