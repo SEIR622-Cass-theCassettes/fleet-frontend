@@ -3,6 +3,7 @@ import { Route, Link } from 'react-router-dom';
 import './App.css';
 import Home from './Home';
 import SignIn from './SignIn';
+import SingleTruck from './SingleTruck'
 import { Nav, Container, Row, Col, Navbar } from 'react-bootstrap';
 class App extends Component {
 	render() {
@@ -48,6 +49,13 @@ class App extends Component {
 						path='/signIn'
 						render={() => {
 							return <SignIn return />;
+						}}
+					/>
+
+					<Route
+						path='/SingleTruck'
+						render={() => {
+							return <SingleTruck return />;
 						}}
 					/>
 				</Container>
