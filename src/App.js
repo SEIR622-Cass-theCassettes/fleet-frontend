@@ -4,7 +4,9 @@ import './App.css';
 import Home from './Home';
 import SignIn from './SignIn';
 import Profile from './Profile';
+import SingleTruck from './SingleTruck'
 import { Nav, Container, Row, Col, Navbar } from 'react-bootstrap';
+import logo from './fleetlogos.png';
 class App extends Component {
 	render() {
 		return (
@@ -20,7 +22,7 @@ class App extends Component {
 							<Navbar className='links'>
 								<Nav>
 									<Link to='/'>
-										<p>Home</p>
+										<img src={logo} alt='fleet logo'></img>
 									</Link>
 									<Link to='/signIn'>
 										<p>Sign in</p>
@@ -53,10 +55,15 @@ class App extends Component {
 							return <SignIn return />;
 						}}
 					/>
+
 					<Route
 						path='/myProfile'
 						render={() => {
 							return <Profile return />;
+					<Route
+						path='/SingleTruck'
+						render={() => {
+							return <SingleTruck return />;
 						}}
 					/>
 				</Container>
