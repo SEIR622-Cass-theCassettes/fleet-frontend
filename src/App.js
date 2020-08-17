@@ -3,6 +3,7 @@ import { Route, Link } from 'react-router-dom';
 import './App.css';
 import Home from './Home';
 import SignIn from './SignIn';
+import Profile from './Profile';
 import SingleTruck from './SingleTruck'
 import { Nav, Container, Row, Col, Navbar } from 'react-bootstrap';
 import logo from './fleetlogos.png';
@@ -27,7 +28,9 @@ class App extends Component {
 										<p>Sign in</p>
 									</Link>
 									<p>My Trucks</p>
-									<p>My Profile</p>
+									<Link to='/myProfile'>
+										<p>My Profile</p>
+									</Link>
 									<p>Log Off</p>
 									<p>About Us</p>
 								</Nav>
@@ -53,6 +56,10 @@ class App extends Component {
 						}}
 					/>
 
+					<Route
+						path='/myProfile'
+						render={() => {
+							return <Profile return />;
 					<Route
 						path='/SingleTruck'
 						render={() => {
