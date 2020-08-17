@@ -4,6 +4,7 @@ import './App.css';
 import Home from './Home';
 import SignIn from './SignIn';
 import { Nav, Container, Row, Col, Navbar } from 'react-bootstrap';
+import logo from './fleetlogos.png';
 class App extends Component {
 	render() {
 		return (
@@ -19,7 +20,7 @@ class App extends Component {
 							<Navbar className='links'>
 								<Nav>
 									<Link to='/'>
-										<p>Home</p>
+										<img src={logo} alt='fleet logo'></img>
 									</Link>
 									<Link to='/signIn'>
 										<p>Sign in</p>
