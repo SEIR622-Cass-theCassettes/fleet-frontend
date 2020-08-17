@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
 import './App.css';
 import Navigation from './Navigation';
+import SignUp from './SignUp';
+import SignIn from './SignIn';
 import Home from './Home'
 import { Container, Row, Col } from 'react-bootstrap';
 class App extends Component {
@@ -15,6 +17,8 @@ class App extends Component {
 				<Container>
 					<Route exact path='/' render={() => <Home />} />
 				</Container>
+				<Route exact path='/users/signup' render={() => <SignUp />} />
+				<Route exact path='/users/signin' render={() => <SignIn />} />
 			</Container>
 		);
 	}
