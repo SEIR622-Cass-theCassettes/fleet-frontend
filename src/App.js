@@ -34,7 +34,7 @@ class App extends Component {
 						<Link to='/signIn'>
 							<p>Sign in</p>
 						</Link>
-						<Link to='/signup'>
+						<Link to='/users/signup'>
 							<p>Sign Up</p>
 						</Link>
 					</Container>
@@ -79,7 +79,8 @@ class App extends Component {
 									<p>Log Off</p>
 									<Link to='/about-us'>
 										<p>About Us</p>
-									</Link>
+									</Link>									
+									{navBar()}
 								</Nav>
 							</Navbar>
 						</Col>
@@ -104,12 +105,6 @@ class App extends Component {
 						path='/myProfile'
 						render={() => {
 							return <Profile return />;
-						}}
-					/>
-					<Route
-						path='/trucks'
-						render={() => {
-							return <TruckList return />;
 						}}
 					/>
 					<Route
