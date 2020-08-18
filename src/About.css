@@ -1,0 +1,23 @@
+.image {
+ text-align: center;
+ padding-bottom: 10px;
+ padding-top: 10px;
+}
+.about-us img {
+    height: 300px;
+    align-self: center;
+}
+
+.about-us h3 {
+   text-decoration: underline;
+   padding-bottom: 3px;
+}
+img {
+padding: 3px;
+}
+
+.about-us h2 {
+    font-weight: 600;
+    text-decoration: underline;
+    padding-bottom: 10px;
+}

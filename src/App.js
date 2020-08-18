@@ -27,11 +27,6 @@ class App extends Component {
 				<Container className='header'>
 					<Row>
 						<Col>
-							<h1>Fleet</h1>
-						</Col>
-					</Row>
-					<Row>
-						<Col>
 							<Navbar className='links'>
 								<Nav>
 									<Link to='/'>
