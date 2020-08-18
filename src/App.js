@@ -125,7 +125,7 @@ class App extends Component {
 							return <About return />;
 						}}
 					/>
-					<Route path='/users/signUp' render={() => <SignUp />} />
+					<Route path='/signUp' render={() => <SignUp />} />
 				</Container>
 				<Route exact path='/users/signup' render={() => <SignUp />} />
 				<Route exact path='/users/signin' render={() => <SignIn />} />
