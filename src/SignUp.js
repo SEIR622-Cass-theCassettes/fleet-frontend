@@ -14,6 +14,29 @@ class SignUp extends Component {
 		};
 	}
 
+	handleChange = (event) => {
+		this.setState({
+			[event.target.name]: event.target.value,
+		});
+	};
+
+	handleSubmit(event) {
+		event.preventDefault();
+		FleetBackend()
+			.post('users/signup', {
+				name: this.state.name,
+				email: this.state.email,
+				password: this.state.password,
+			})
+			.then((response) => {
+				console.log(response);
+				this.setState({ error: false });
+			})
+			.catch((error) => {
+				this.setState({ error: true, errorMessage: error.response.data });
+			});
+	}
+
 	render() {
 		const { name, email, password } = this.state;
 		return (
@@ -51,29 +74,6 @@ class SignUp extends Component {
 				<button type='submit'>Create account</button>
 			</form>
 		);
-	}
-
-	handleChange = (event) => {
-		this.setState({
-			[event.target.name]: event.target.value,
-		});
-	};
-
-	handleSubmit(event) {
-		event.preventDefault();
-		FleetBackend()
-			.post('users/signup', {
-				name: this.state.name,
-				email: this.state.email,
-				password: this.state.password,
-			})
-			.then((response) => {
-				console.log(response);
-				this.setState({ error: false });
-			})
-			.catch((error) => {
-				this.setState({ error: true, errorMessage: error.response.data });
-			});
 	}
 }
 
