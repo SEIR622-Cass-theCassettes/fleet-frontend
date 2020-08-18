@@ -12,6 +12,30 @@ class SignIn extends Component {
 			errorMessage: undefined,
 		};
 	}
+
+	handleChange = (event) => {
+		this.setState({
+			[event.target.name]: event.target.value,
+		});
+	};
+
+	handleSubmit = (event) => {
+		event.preventDefault();
+		FleetBackend()
+			.post('users/signin', {
+				email: this.state.email,
+				password: this.state.password,
+			})
+			.then((response) => {
+				console.log(response);
+				this.props.setToken(response);
+				this.setState({ error: false });
+			})
+			.catch((error) => {
+				this.setState({ error: true, errorMessage: error.response.data });
+			});
+	};
+
 	render() {
 		const { email, password } = this.state;
 		return (
@@ -33,32 +57,12 @@ class SignIn extends Component {
 					onChange={this.handleChange}
 				/>
 				<button type='submit'>Login</button>
-				{this.state.error && <div style={{ color: 'red' }}>{this.state.errorMessage}</div>}
+				{this.state.error && (
+					<div style={{ color: 'red' }}>{this.state.errorMessage}</div>
+				)}
 			</form>
 		);
 	}
-	handleChange = (event) => {
-		this.setState({
-			[event.target.name]: event.target.value,
-		});
-	};
-
-	handleSubmit = (event) => {
-		event.preventDefault();
-		FleetBackend()
-			.post('users/signin', {
-				email: this.state.email,
-				password: this.state.password,
-			})
-			.then((response) => {
-				console.log(response);
-				this.props.setToken(response);
-				this.setState({ error: false });
-			})
-			.catch((error) => {
-				this.setState({error: true, errorMessage: error.response.data });
-			});
-	};
 }
 
 export default SignIn;
