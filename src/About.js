@@ -40,11 +40,14 @@ class About extends Component {
 				</p>
 				<h3>Our Values</h3>
 				<p>
-					Here at Fleet we are dedicated to making your lives just a little bit
-					easier.
+					Here at Fleet we are dedicated to making your life just a little bit
+					easier. 
 				</p>
 				<h3>How Much Is Fleet?</h3>
 				<p>As much as you're willing to pay me.</p>
+                <h3>How Can I Contact Fleet For Issues or Suggestions?</h3>
+                <p>Email: fleet@fleet.fleet</p>
+                <p>Phone: 1-800-fleet</p>
 			</div>
 		);
 	}
