@@ -2,7 +2,11 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { FleetBackend } from './api/FleetBackend';
+<<<<<<< HEAD
 import { Container} from 'react-bootstrap';
+=======
+import { Container, Row, Col } from 'react-bootstrap';
+>>>>>>> Truck page now can update backend
 class SingleTruck extends Component {
 	constructor() {
 		super();
@@ -63,6 +67,10 @@ class SingleTruck extends Component {
 				{this.state.truck !== undefined && (
 					<Container>
 						<Container>
+<<<<<<< HEAD
+=======
+							<h2>Truck Name: test</h2>
+>>>>>>> Truck page now can update backend
 							<h2>Truck Name: {this.state.truck.name}</h2>
 							<p>Vin: {this.state.truck.vin}</p>
 							<p>Make: {this.state.truck.make}</p>
