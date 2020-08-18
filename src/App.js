@@ -23,6 +23,39 @@ class App extends Component {
 	}
 
 	render() {
+		let token = this.state.token
+		const navBar = ()=> {
+			if (token === undefined) {
+				return (
+					<Container>
+						<Link to='/about-us'>
+							<p>About Us</p>
+						</Link>
+						<Link to='/signIn'>
+							<p>Sign in</p>
+						</Link>
+						<Link to='/users/signup'>
+							<p>Sign Up</p>
+						</Link>
+					</Container>
+				);
+			} else {
+				return (
+					<Container>
+						<Link to='/about-us'>
+							<p>About Us</p>
+						</Link>
+						<Link to='/trucks'>
+							<p>My Trucks</p>
+						</Link>
+						<Link to='/myProfile'>
+							<p>My Profile</p>
+						</Link>
+						<p>Log Off</p>
+					</Container>
+				);
+			}
+		}
 		return (
 			<Container className='app'>
 				<Container className='header'>
@@ -33,19 +66,8 @@ class App extends Component {
 									<Link to='/'>
 										<img src={logo} alt='fleet logo'></img>
 									</Link>
-									<Link to='/signIn'>
-										<p>Sign in</p>
-									</Link>
-									<Link to='/trucks'>
-									<p>My Trucks</p>
-									</Link>
-									<Link to='/myProfile'>
-										<p>My Profile</p>
-									</Link>
-									<p>Log Off</p>
-									<Link to='/about-us'>
-										<p>About Us</p>
-									</Link>
+									
+									{navBar()}
 								</Nav>
 							</Navbar>
 						</Col>
@@ -71,7 +93,7 @@ class App extends Component {
 						render={() => {
 							return <Profile return />;
 						}}
-						/>
+					/>
 					<Route
 						path='/trucks'
 						render={() => {
