@@ -11,7 +11,7 @@ class SignUp extends Component {
 		event.preventDefault();
 		const data = new FormData(event.target);
 
-		fetch('/api/form-submit-url/users', {
+		fetch('https://protected-refuge-14681.herokuapp.com/api/users', {
 			method: 'POST',
 			body: data,
 		});
@@ -20,6 +20,8 @@ class SignUp extends Component {
 	render() {
 		return (
 			<form onSubmit={this.handleSubmit}>
+				<label htmlFor='name'>Enter your full name</label>
+				<input id='name' name='name' type='text' />
 
 				<label htmlFor='email'>Enter your email</label>
 				<input id='email' name='email' type='email' />

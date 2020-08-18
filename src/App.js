@@ -75,6 +75,8 @@ class App extends Component {
 						}}
 					/>
 				</Container>
+				<Route exact path='/users/signup' render={() => <SignUp />} />
+				
 			</Container>
 		);
 	}
