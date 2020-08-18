@@ -77,15 +77,11 @@ class App extends Component {
 					<Route
 						path='/SingleTruck/:vim'
 						render={(routerProps) => {
-							return (
-								<SingleTruck
-									match={routerProps.match}
-								/>
-							);
+							return <SingleTruck match={routerProps.match} />;
 						}}
 					/>
+					<Route path='/signUp' render={() => <SignUp />} />
 				</Container>
-				<Route exact path='/users/signup' render={() => <SignUp />} />
 			</Container>
 		);
 	}
