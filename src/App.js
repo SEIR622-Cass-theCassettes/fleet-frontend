@@ -77,7 +77,9 @@ class App extends Component {
 										<p>My Profile</p>
 									</Link>
 									<p>Log Off</p>
-									<p>About Us</p>
+									<Link to='/about-us'>
+										<p>About Us</p>
+									</Link>
 								</Nav>
 							</Navbar>
 						</Col>
