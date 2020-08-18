@@ -1,5 +1,6 @@
 // Make a page that will allow a user to enter their email and password so they can create an account, allow users to add their first and last name
 import React, { Component } from 'react';
+import { FleetBackend } from './api/FleetBackend';
 
 class SignUp extends Component {
 	constructor() {
