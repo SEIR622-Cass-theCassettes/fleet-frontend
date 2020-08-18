@@ -84,15 +84,14 @@ class App extends Component {
 							return <SingleTruck match={routerProps.match} />;
 						}}
 					/>
-
 					<Route
 						path='/about-us'
 						render={() => {
 							return <About return />;
 						}}
 					/>
+					<Route path='/signUp' render={() => <SignUp />} />
 				</Container>
-				<Route exact path='/users/signup' render={() => <SignUp />} />
 			</Container>
 		);
 	}
