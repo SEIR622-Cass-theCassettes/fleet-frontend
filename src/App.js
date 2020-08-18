@@ -66,7 +66,6 @@ class App extends Component {
 									<Link to='/'>
 										<img src={logo} alt='fleet logo'></img>
 									</Link>
-									
 									{navBar()}
 								</Nav>
 							</Navbar>
