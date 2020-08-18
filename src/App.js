@@ -6,8 +6,8 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Profile from './Profile';
 
-import SingleTruck from './SingleTruck'
-import TruckList from './TruckList'
+import SingleTruck from './SingleTruck';
+import TruckList from './TruckList';
 import { Nav, Container, Row, Col, Navbar } from 'react-bootstrap';
 import logo from './fleetlogos.png';
 class App extends Component {
@@ -42,7 +42,7 @@ class App extends Component {
 										<p>Sign in</p>
 									</Link>
 									<Link to='/trucks'>
-									<p>My Trucks</p>
+										<p>My Trucks</p>
 									</Link>
 									<Link to='/myProfile'>
 										<p>My Profile</p>
@@ -77,7 +77,7 @@ class App extends Component {
 						render={() => {
 							return <Profile return />;
 						}}
-						/>
+					/>
 					<Route
 						path='/trucks'
 						render={() => {
@@ -87,11 +87,7 @@ class App extends Component {
 					<Route
 						path='/SingleTruck/:vim'
 						render={(routerProps) => {
-							return (
-								<SingleTruck
-									match={routerProps.match}
-								/>
-							);
+							return <SingleTruck match={routerProps.match} />;
 						}}
 					/>
 				</Container>
