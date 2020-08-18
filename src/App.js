@@ -5,7 +5,7 @@ import Home from './Home';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Profile from './Profile';
-
+import About from './About'
 import SingleTruck from './SingleTruck'
 import TruckList from './TruckList'
 import { Nav, Container, Row, Col, Navbar } from 'react-bootstrap';
@@ -28,11 +28,6 @@ class App extends Component {
 				<Container className='header'>
 					<Row>
 						<Col>
-							<h1>Fleet</h1>
-						</Col>
-					</Row>
-					<Row>
-						<Col>
 							<Navbar className='links'>
 								<Nav>
 									<Link to='/'>
@@ -48,14 +43,13 @@ class App extends Component {
 										<p>My Profile</p>
 									</Link>
 									<p>Log Off</p>
-									<p>About Us</p>
+									<Link to='/about-us'>
+										<p>About Us</p>
+									</Link>
 								</Nav>
 							</Navbar>
 						</Col>
 					</Row>
-				</Container>
-				<Container>
-					<h1>Welcome To The Fleet!</h1>
 				</Container>
 				<Container>
 					<Route
@@ -87,11 +81,14 @@ class App extends Component {
 					<Route
 						path='/SingleTruck/:vim'
 						render={(routerProps) => {
-							return (
-								<SingleTruck
-									match={routerProps.match}
-								/>
-							);
+							return <SingleTruck match={routerProps.match} />;
+						}}
+					/>
+
+					<Route
+						path='/about-us'
+						render={() => {
+							return <About return />;
 						}}
 					/>
 				</Container>
