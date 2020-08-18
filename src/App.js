@@ -3,6 +3,7 @@ import { Route, Link } from 'react-router-dom';
 import './App.css';
 import Home from './Home';
 import SignIn from './SignIn';
+import SignUp from './SignUp';
 import Profile from './Profile';
 import SingleTruck from './SingleTruck';
 import { Nav, Container, Row, Col, Navbar } from 'react-bootstrap';
