@@ -9,4 +9,5 @@ function FleetBackend() {
 		baseURL: backendUrl,
 	});
 }
+
 export { FleetBackend };
