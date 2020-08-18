@@ -21,11 +21,6 @@ class About extends Component {
 					due. Users can also add notes in order for employees to report any
 					issues on said vehicles or to keep track of required repairs.
 				</p>
-				<h3>Is Fleet Right For Me?</h3>
-				<p>
-					Our software can help a company of any size manage their vehicles in a
-					more orderly fashion.
-				</p>
 				<h3>Why Is Fleet Right For Me?</h3>
 				<p>
 					Have any of your company's trucks ever gone past their service date?
@@ -41,7 +36,7 @@ class About extends Component {
 				<h3>Our Values</h3>
 				<p>
 					Here at Fleet we are dedicated to making your life just a little bit
-					easier. 
+					easier. You already have enough on your plate running a business. Our goal is to make sure your vehicles operate as smoothly as possible.
 				</p>
 				<h3>How Much Is Fleet?</h3>
 				<p>As much as you're willing to pay me.</p>
