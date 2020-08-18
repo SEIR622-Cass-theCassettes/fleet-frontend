@@ -2,144 +2,176 @@
 
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { FleetBackend } from './api/FleetBackend';
+import { Container, Row, Col } from 'react-bootstrap';
 class SingleTruck extends Component {
 	constructor() {
 		super();
 		this.state = {
-			truck: null,
+			truck: undefined,
+			newTruck: undefined,
 			show: false,
 		};
 	}
 
-	// componentDidMount() {
-	// 	fetch(`where ever the hell the trucks are`)
-	// 		.then((results) => results.json())
-	// 		.then((results) => {
-	// 			this.setState({ truck: results });
-	// 		})
-	// 		.catch((err) => {
-	// 			console.error(err);
-	// 		});
-	// }
-	render() {
-        const handleChange = ((event) => {
-            	this.setState({
-								[event.target.name]: event.target.value,
-							});
-        });
+	componentDidMount() {
+		FleetBackend()
+			.get(`trucks/${this.props.match.params.vim}`)
+			.then((results) => {
+				this.setState({ truck: results.data });
+			})
+			.catch((err) => {
+				console.error(err);
+			});
+	}
 
-	const handleSubmit = (event) => {
-        event.preventDefault()
-		console.log('Submitting');
-		console.log(this.state);
+	handleChange = (event) => {
+		let newTruck = this.state.newTruck;
+		newTruck[event.target.name] = event.target.value;
+		this.setState({
+			newTruck: newTruck,
+		});
 	};
-		const handleClose = () => this.setState({ show: false });
-		const handleShow = () => this.setState({ show: true });
-	
-		return (
-			<div className='info'>
-				{/* this is what will end up being used once everything is set up */}
-				{/* <h2>Truck Name: {this.state.truck.name}</h2> */}
-				{/* <p>Vin: {this.state.truck.vin}</p> */}
-				{/* <p>Make: {this.state.truck.make}</p> */}
-				{/* <p>Model: {this.state.truck.model}</p> */}
-				{/* <p>Plate: {this.state.truck.plate}</p> */}
-				{/* <p>Status: {this.state.truck.status}</p> */}
-				{/* <p>Last Serviced: {this.state.truck.lastServiced}</p> */}
-				{/* <p>Service Due: {this.state.truck.serviceDue}</p> */}
-				{/* <p>Last Users: {this.state.truck.lastUsers}</p> */}
-				<h2>Truck Name: test</h2>
-				<p>Vin: test</p>
-				<p>Make: test</p>
-				<p>Model: test</p>
-				<p>Plate: test</p>
-				<p>Status: test</p>
-				<p>Last Serviced: test</p>
-				<p>Service Due: test</p>
-				<p>Last Users: test</p>
-				<button onClick={handleShow}>edit truck</button>
 
-				<div>
-					<Modal show={this.state.show} onHide={handleClose}>
-						<Modal.Header closeButton>
-							<Modal.Title>Edit Vehicle</Modal.Title>
-						</Modal.Header>
-						<Modal.Body>
-							<form onSubmit={handleSubmit}>
-								<label htmlFor='name'>Name</label>
-								<input
-									type='text'
-									id='name'
-									name='name'
-									onChange={handleChange}></input>
-								<br />
-								<label htmlFor='vin'>Vin</label>
-								<input
-									type='text'
-									id='vin'
-									name='vin'
-									onChange={handleChange}></input>
-								<br />
-								<label htmlFor='make'>Make</label>
-								<input
-									type='text'
-									id='make'
-									name='make'
-									onChange={handleChange}></input>
-								<br />
-								<label htmlFor='model'>Model</label>
-								<input
-									type='text'
-									id='model'
-									name='model'
-									onChange={handleChange}></input>
-								<br />
-								<label htmlFor='plate'>Plate</label>
-								<input
-									type='text'
-									id='plate'
-									name='plate'
-									onChange={handleChange}></input>
-								<br />
-								<label htmlFor='status'>Status</label>
-								<input
-									type='text'
-									id='status'
-									name='status'
-									onChange={handleChange}></input>
-								<br />
-								<label htmlFor='lastServiced'>Last Service</label>
-								<input
-									type='text'
-									id='lastServiced'
-									name='lastServiced'
-									onChange={handleChange}></input>
-								<br />
-								<label htmlFor='serviceDue'>Service Due</label>
-								<input
-									type='text'
-									id='serviceDue'
-									name='serviceDue'
-									onChange={handleChange}></input>
-								<br />
-								<label htmlFor='lastUser'>Last User</label>
-								<input
-									type='text'
-									id='lastUser'
-									name='lastUser'
-									onChange={handleChange}></input>
-								<br />
-								<input type='submit' />
-							</form>
-						</Modal.Body>
-						<Modal.Footer>
-							<Button variant='secondary' onClick={handleClose}/>
-								Close Without saving
-							<Modal.Title>Modal heading</Modal.Title>
-						</Modal.Footer>
-					</Modal>
-				</div>
-			</div>
+	handleSubmit = (event) => {
+		event.preventDefault();
+		FleetBackend()
+			.put(`trucks/${this.props.match.params.vim}`, this.state.newTruck)
+			.then((results) => {
+				this.handleClose();
+				this.setState({ truck: results.data });
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	handleClose = () => this.setState({ show: false });
+	handleShow = () => {
+		if (this.state.newTruck === undefined) {
+			let newTruck = {};
+			Object.keys(this.state.truck).map((key) => {
+				newTruck[key] = this.state.truck[key];
+			});
+			this.setState({ newTruck: newTruck });
+		}
+		this.setState({ show: true });
+	};
+
+	render() {
+		return (
+			<Container className='info'>
+				{this.state.truck !== undefined && (
+					<Container>
+						<Container>
+							<h2>Truck Name: test</h2>
+							<h2>Truck Name: {this.state.truck.name}</h2>
+							<p>Vin: {this.state.truck.vin}</p>
+							<p>Make: {this.state.truck.make}</p>
+							<p>Model: {this.state.truck.model}</p>
+							<p>Plate: {this.state.truck.plate}</p>
+							<p>Status: {this.state.truck.status}</p>
+							<p>Last Serviced: {this.state.truck.lastServiced}</p>
+							<p>Service Due: {this.state.truck.serviceDue}</p>
+							<p>Last Users: {this.state.truck.lastUsers}</p>
+							<button onClick={this.handleShow}>edit truck</button>
+						</Container>
+						{this.state.newTruck !== undefined && (
+							<Container>
+								<Modal show={this.state.show} onHide={this.handleClose}>
+									<Modal.Header closeButton>
+										<Modal.Title>Edit Vehicle</Modal.Title>
+									</Modal.Header>
+									<Modal.Body>
+										<form onSubmit={this.handleSubmit}>
+											<label htmlFor='name'>Name</label>
+											<input
+												type='text'
+												id='name'
+												name='name'
+												value={this.state.newTruck.name}
+												onChange={this.handleChange}></input>
+											<br />
+											<label htmlFor='vin'>Vin</label>
+											<input
+												type='text'
+												id='vin'
+												value={this.state.newTruck.vin}
+												name='vin'
+												onChange={this.handleChange}></input>
+											<br />
+											<label htmlFor='make'>Make</label>
+											<input
+												type='text'
+												id='make'
+												value={this.state.newTruck.make}
+												name='make'
+												onChange={this.handleChange}></input>
+											<br />
+											<label htmlFor='model'>Model</label>
+											<input
+												type='text'
+												id='model'
+												name='model'
+												value={this.state.newTruck.model}
+												onChange={this.handleChange}></input>
+											<br />
+											<label htmlFor='plate'>Plate</label>
+											<input
+												type='text'
+												id='plate'
+												name='plate'
+												value={this.state.newTruck.plate}
+												onChange={this.handleChange}></input>
+											<br />
+											<label htmlFor='status'>Status</label>
+											<input
+												type='text'
+												id='status'
+												name='status'
+												value={this.state.newTruck.status}
+												onChange={this.handleChange}></input>
+											<br />
+											<label htmlFor='lastServiced'>Last Service</label>
+											<input
+												type='date'
+												id='lastServiced'
+												name='lastServiced'
+												value={this.state.newTruck.lastServiced}
+												onChange={this.handleChange}></input>
+											<br />
+											<label htmlFor='serviceDue'>Service Due</label>
+											<input
+												type='date'
+												id='serviceDue'
+												name='serviceDue'
+												value={this.state.newTruck.serviceDue}
+												onChange={this.handleChange}></input>
+											<br />
+											<label htmlFor='lastUser'>Last User</label>
+											<input
+												type='text'
+												id='lastUser'
+												name='lastUser'
+												value={this.state.newTruck.lastUser}
+												onChange={this.handleChange}></input>
+											<br />
+										</form>
+									</Modal.Body>
+									<Modal.Footer>
+										<Button type='submit' onClick={this.handleSubmit}>
+											Submit
+										</Button>
+										<Button variant='secondary' onClick={this.handleClose}>
+											Close
+										</Button>
+									</Modal.Footer>
+								</Modal>
+							</Container>
+						)}
+					</Container>
+				)}
+			</Container>
 		);
 	}
 }

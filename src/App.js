@@ -3,12 +3,25 @@ import { Route, Link } from 'react-router-dom';
 import './App.css';
 import Home from './Home';
 import SignIn from './SignIn';
+import SignUp from './SignUp';
 import Profile from './Profile';
+
 import SingleTruck from './SingleTruck'
 import TruckList from './TruckList'
 import { Nav, Container, Row, Col, Navbar } from 'react-bootstrap';
 import logo from './fleetlogos.png';
 class App extends Component {
+	constructor() {
+		super();
+		this.state = {
+			token: undefined,
+		};
+	}
+
+	setToken(token) {
+		this.setState({ token: token });
+	}
+
 	render() {
 		return (
 			<Container className='app'>
@@ -55,7 +68,7 @@ class App extends Component {
 					<Route
 						path='/signIn'
 						render={() => {
-							return <SignIn return />;
+							return <SignIn setToken={this.setToken} />;
 						}}
 					/>
 
@@ -72,12 +85,17 @@ class App extends Component {
 						}}
 					/>
 					<Route
-						path='/SingleTruck'
-						render={() => {
-							return <SingleTruck return />;
+						path='/SingleTruck/:vim'
+						render={(routerProps) => {
+							return (
+								<SingleTruck
+									match={routerProps.match}
+								/>
+							);
 						}}
 					/>
 				</Container>
+				<Route exact path='/users/signup' render={() => <SignUp />} />
 			</Container>
 		);
 	}
