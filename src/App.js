@@ -5,8 +5,9 @@ import Home from './Home';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Profile from './Profile';
-import SingleTruck from './SingleTruck';
 import About from './About'
+import SingleTruck from './SingleTruck'
+import TruckList from './TruckList'
 import { Nav, Container, Row, Col, Navbar } from 'react-bootstrap';
 import logo from './fleetlogos.png';
 class App extends Component {
@@ -35,7 +36,9 @@ class App extends Component {
 									<Link to='/signIn'>
 										<p>Sign in</p>
 									</Link>
+									<Link to='/trucks'>
 									<p>My Trucks</p>
+									</Link>
 									<Link to='/myProfile'>
 										<p>My Profile</p>
 									</Link>
@@ -67,6 +70,12 @@ class App extends Component {
 						path='/myProfile'
 						render={() => {
 							return <Profile return />;
+						}}
+						/>
+					<Route
+						path='/trucks'
+						render={() => {
+							return <TruckList return />;
 						}}
 					/>
 					<Route
