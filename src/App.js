@@ -72,6 +72,17 @@ class App extends Component {
 										<img src={logo} alt='fleet logo'></img>
 									</Link>
 									{navBar()}
+									<Link to='/signIn'>
+										<p>Sign in</p>
+									</Link>
+									<Link to='/trucks'>
+										<p>My Trucks</p>
+									</Link>
+									<Link to='/myProfile'>
+										<p>My Profile</p>
+									</Link>
+									<p>Log Off</p>
+									<p>About Us</p>
 								</Nav>
 							</Navbar>
 						</Col>
@@ -99,7 +110,7 @@ class App extends Component {
 						render={() => {
 							return <Profile return />;
 						}}
-						/>
+					/>
 					<Route
 						path='/trucks'
 						render={() => {
