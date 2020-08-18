@@ -99,6 +99,12 @@ class App extends Component {
 						render={() => {
 							return <Profile return />;
 						}}
+						/>
+					<Route
+						path='/trucks'
+						render={() => {
+							return <TruckList return />;
+						}}
 					/>
 					<Route
 						path='/trucks'
