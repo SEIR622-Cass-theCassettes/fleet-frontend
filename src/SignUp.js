@@ -4,7 +4,7 @@ import { FleetBackend } from './api/FleetBackend';
 
 class SignUp extends Component {
 	constructor() {
-		super(props);
+		super();
 		this.state = {
 			name: '',
 			email: '',
