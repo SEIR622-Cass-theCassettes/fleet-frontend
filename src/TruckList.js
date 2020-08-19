@@ -14,6 +14,7 @@ class TruckList extends Component {
 		this.state = {
 			truck: [],
 			show: false,
+			newTruck: undefined,
 		};
 	}
 	componentDidMount() {
@@ -26,10 +27,35 @@ class TruckList extends Component {
 				console.error(err);
 			});
 	}
+	handleChange = (event) => {
+		let newTruck = this.state.newTruck;
+		newTruck[event.target.name] = event.target.value;
+		this.setState({
+			newTruck: newTruck,
+		});
+	};
 
-	handleModal() {
-		this.setState({ show: !this.state.show });
-	}
+	handleSubmit = (event) => {
+		event.preventDefault();
+		FleetBackend()
+			.post('trucks/new', this.state.newTruck)
+			.then((results) => {
+				this.handleClose();
+				this.setState({ truck: results.data });
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	handleClose = () => this.setState({ show: false });
+	handleShow = () => {
+		if (this.state.newTruck === undefined) {
+			let newTruck = {};
+			this.setState({ newTruck: newTruck });
+		}
+		this.setState({ show: true });
+	};
 	render() {
 		return (
 			<>
@@ -40,11 +66,11 @@ class TruckList extends Component {
 							<Card key={id}>
 								<Card.Body className='p-6 mb-6 bg-warning text-white text-xl-center'>
 									<Card.Text className='text-white'>
-                        <p>Truck Name {truck.name}</p>
+										<p>Truck Name {truck.vin}</p>
 										<Link
 											className='text-white'
 											exact
-											to={`/trucks/SingleTruck${truck.vin}`}>
+											to={`/trucks/SingleTruck/:vin`}>
 											<p>see more on details on this truck</p>
 											<img src={truckimage} className='img-fluid' alt='truck' />
 										</Link>
@@ -57,128 +83,105 @@ class TruckList extends Component {
 				<Container>
 					<Button
 						onClick={() => {
-							this.handleModal();
+							this.handleShow();
 						}}>
 						add a new truck to the list yo
 					</Button>
 				</Container>
-				<Modal show={this.state.show} onHide={() => this.handleModal()}>
-					<Modal.Header closeButton>
-						<Modal.Title>Add a new Truck to your Fleet</Modal.Title>
-					</Modal.Header>
-					<Modal.Body>
-						<InputGroup className='mb-3'>
-							<InputGroup.Prepend>
-								<InputGroup.Text id='basic-addon1'>Truck Name</InputGroup.Text>
-							</InputGroup.Prepend>
-							<FormControl
-								type='text'
-								placeholder='Truck Name'
-								aria-label='Truck Name'
-								aria-describedby='basic-addon1'
-							/>
-						</InputGroup>
-						<InputGroup className='mb-3'>
-							<InputGroup.Prepend>
-								<InputGroup.Text id='basic-addon1'>Truck Vin</InputGroup.Text>
-							</InputGroup.Prepend>
-							<FormControl
-								type='text'
-								placeholder='Truck Vin'
-								aria-label='Truck Vin'
-								aria-describedby='basic-addon1'
-							/>
-						</InputGroup>
-						<InputGroup className='mb-3'>
-							<InputGroup.Prepend>
-								<InputGroup.Text id='basic-addon1'>Truck Make</InputGroup.Text>
-							</InputGroup.Prepend>
-							<FormControl
-								type='text'
-								placeholder='Truck Make'
-								aria-label='Truck Make'
-								aria-describedby='basic-addon1'
-							/>
-						</InputGroup>
-						<InputGroup className='mb-3'>
-							<InputGroup.Prepend>
-								<InputGroup.Text id='basic-addon1'>Truck Model</InputGroup.Text>
-							</InputGroup.Prepend>
-							<FormControl
-								type='text'
-								placeholder='Truck Model'
-								aria-label='Truck Model'
-								aria-describedby='basic-addon1'
-							/>
-						</InputGroup>
-						<InputGroup className='mb-3'>
-							<InputGroup.Prepend>
-								<InputGroup.Text id='basic-addon1'>Plate</InputGroup.Text>
-							</InputGroup.Prepend>
-							<FormControl
-								type='text'
-								placeholder='Plate'
-								aria-label='Plate'
-								aria-describedby='basic-addon1'
-							/>
-						</InputGroup>
-						<InputGroup className='mb-3'>
-							<InputGroup.Prepend>
-								<InputGroup.Text id='basic-addon1'>Status</InputGroup.Text>
-							</InputGroup.Prepend>
-							<FormControl
-								type='text'
-								placeholder='Status'
-								aria-label='Status'
-								aria-describedby='basic-addon1'
-							/>
-						</InputGroup>
-						<InputGroup className='mb-3'>
-							<InputGroup.Prepend>
-								<InputGroup.Text id='basic-addon1'>
-									Last Service
-								</InputGroup.Text>
-							</InputGroup.Prepend>
-							<FormControl
-								type='text'
-								placeholder='Date OfLast Service'
-								aria-label='Last Service'
-								aria-describedby='basic-addon1'
-							/>
-						</InputGroup>
-						<InputGroup className='mb-3'>
-							<InputGroup.Prepend>
-								<InputGroup.Text id='basic-addon1'>Service Due</InputGroup.Text>
-							</InputGroup.Prepend>
-							<FormControl
-								type='text'
-								placeholder='service due on'
-								aria-label='Service Due'
-								aria-describedby='basic-addon1'
-							/>
-						</InputGroup>
-						<InputGroup className='mb-3'>
-							<InputGroup.Prepend>
-								<InputGroup.Text id='basic-addon1'>Last Driver</InputGroup.Text>
-							</InputGroup.Prepend>
-							<FormControl
-								type='text'
-								placeholder='Name of Last Driver'
-								aria-label='Last Driver'
-								aria-describedby='basic-addon1'
-							/>
-						</InputGroup>
-					</Modal.Body>
-					<Modal.Footer>
-						<Button
-							onClick={() => {
-								this.handleModal();
-							}}>
-							Close
-						</Button>
-						<Button>Save Changes</Button>
-					</Modal.Footer>
-				</Modal>
+				{this.state.newTruck !== undefined && (
+					<Modal show={this.state.show} onHide={this.handleClose}>
+						<Modal.Header closeButton>
+							<Modal.Title>Add a new Truck to your Fleet</Modal.Title>
+						</Modal.Header>
+						<Modal.Body>
+							<form onSubmit={this.handleSubmit}>
+								<label htmlFor='name'>Name</label>
+								<input
+									type='text'
+									id='name'
+									name='name'
+									value={this.state.newTruck.name}
+									onChange={this.handleChange}></input>
+								<br />
+								<label htmlFor='vin'>Vin</label>
+								<input
+									type='text'
+									id='vin'
+									value={this.state.newTruck.vin}
+									name='vin'
+									onChange={this.handleChange}></input>
+								<br />
+								<label htmlFor='make'>Make</label>
+								<input
+									type='text'
+									id='make'
+									value={this.state.newTruck.make}
+									name='make'
+									onChange={this.handleChange}></input>
+								<br />
+								<label htmlFor='model'>Model</label>
+								<input
+									type='text'
+									id='model'
+									name='model'
+									value={this.state.newTruck.model}
+									onChange={this.handleChange}></input>
+								<br />
+								<label htmlFor='plate'>Plate</label>
+								<input
+									type='text'
+									id='plate'
+									name='plate'
+									value={this.state.newTruck.plate}
+									onChange={this.handleChange}></input>
+								<br />
+								<label htmlFor='status'>Status</label>
+								<input
+									type='text'
+									id='status'
+									name='status'
+									value={this.state.newTruck.status}
+									onChange={this.handleChange}></input>
+								<br />
+								<label htmlFor='lastServiced'>Last Service</label>
+								<input
+									type='date'
+									id='lastServiced'
+									name='lastServiced'
+									value={this.state.newTruck.lastServiced}
+									onChange={this.handleChange}></input>
+								<br />
+								<label htmlFor='serviceDue'>Service Due</label>
+								<input
+									type='date'
+									id='serviceDue'
+									name='serviceDue'
+									value={this.state.newTruck.serviceDue}
+									onChange={this.handleChange}></input>
+								<br />
+								<label htmlFor='lastUser'>Last User</label>
+								<input
+									type='text'
+									id='lastUser'
+									name='lastUser'
+									value={this.state.newTruck.lastUser}
+									onChange={this.handleChange}></input>
+								<br />
+							</form>
+						</Modal.Body>
+						<Modal.Footer>
+							<Button
+								onClick={() => {
+									this.handleClose();
+								}}>
+								Close
+							</Button>
+							<Button type='submit' onClick={this.handleSubmit}>
+								Submit
+							</Button>
+						</Modal.Footer>
+					</Modal>
+				)}
 			</>
 		);
 	}
