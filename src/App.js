@@ -34,7 +34,7 @@ class App extends Component {
 						<Link to='/signIn'>
 							<p>Sign in</p>
 						</Link>
-						<Link to='/users/signup'>
+						<Link to='/signup'>
 							<p>Sign Up</p>
 						</Link>
 					</Container>
