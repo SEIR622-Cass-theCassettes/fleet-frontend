@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import truckimage from './truck.png';
-import { Card } from 'react-bootstrap';
+import { Card, Container } from 'react-bootstrap';
 import { CardColumns } from 'react-bootstrap';
 import { FleetBackend } from './api/FleetBackend';
 import { Button } from 'react-bootstrap';
@@ -18,7 +18,7 @@ class TruckList extends Component {
 	}
 	componentDidMount() {
 		FleetBackend()
-			.get('trucks/', {})
+			.get('/trucks')
 			.then((results) => {
 				this.setState({ truck: results.data });
 			})
@@ -34,26 +34,34 @@ class TruckList extends Component {
 		return (
 			<>
 				<CardColumns>
-					<Card key=''>
-						<Card.Body className='p-6 mb-6 bg-warning text-white text-xl-center'>
-							<Card.Text className='text-white'>
-								<Link className='text-white' exact to={`/trucks/SingleTruck`}>
-									{' '}
-									{/* {`/trucks/${data.vin}`}*/}
-									<p>see more on details on this truck</p>
-									{/* {data.vin}{' '} */}
-									<img src={truckimage} className='img-fluid' alt='truck' />
-								</Link>
-							</Card.Text>
-						</Card.Body>
-					</Card>
+					{this.state.truck.map((truck, id) => {
+						///maping through data to display information
+						return (
+							<Card key={id}>
+								<Card.Body className='p-6 mb-6 bg-warning text-white text-xl-center'>
+									<Card.Text className='text-white'>
+                        <p>Truck Name {truck.name}</p>
+										<Link
+											className='text-white'
+											exact
+											to={`/trucks/SingleTruck${truck.vin}`}>
+											<p>see more on details on this truck</p>
+											<img src={truckimage} className='img-fluid' alt='truck' />
+										</Link>
+									</Card.Text>
+								</Card.Body>
+							</Card>
+						); // list of chosen datasets plus link to take user to page
+					})}
 				</CardColumns>
-				<Button
-					onClick={() => {
-						this.handleModal();
-					}}>
-					add a new truck to the list yo
-				</Button>
+				<Container>
+					<Button
+						onClick={() => {
+							this.handleModal();
+						}}>
+						add a new truck to the list yo
+					</Button>
+				</Container>
 				<Modal show={this.state.show} onHide={() => this.handleModal()}>
 					<Modal.Header closeButton>
 						<Modal.Title>Add a new Truck to your Fleet</Modal.Title>
