@@ -82,10 +82,13 @@ class TruckList extends Component {
 				</CardColumns>
 				<Container>
 					<Button
+						className='shadow p-3 mb-5 bg-white rounded'
 						onClick={() => {
 							this.handleShow();
 						}}>
+                            
 						add a new truck to the list yo
+                    
 					</Button>
 				</Container>
 				{this.state.newTruck !== undefined && (
