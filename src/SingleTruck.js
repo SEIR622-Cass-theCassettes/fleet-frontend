@@ -1,9 +1,8 @@
-// Using react bootstrap: https://git.generalassemb.ly/seir-622/react-bootstrap create a single truck display. Using the truck id found in the url show the trucks information. It's image, status, make, model. At the bottom of the page there should be a button labeled: "Edit truck" clicking on it should open a modal prepopulated with the trucks current data. The model should have the same fields as the create truck modal (reuse maybe?) including an "X" button in the corner that will close the modal without saving any data.
 
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { FleetBackend } from './api/FleetBackend';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container} from 'react-bootstrap';
 class SingleTruck extends Component {
 	constructor() {
 		super();
@@ -64,7 +63,6 @@ class SingleTruck extends Component {
 				{this.state.truck !== undefined && (
 					<Container>
 						<Container>
-							<h2>Truck Name: test</h2>
 							<h2>Truck Name: {this.state.truck.name}</h2>
 							<p>Vin: {this.state.truck.vin}</p>
 							<p>Make: {this.state.truck.make}</p>
