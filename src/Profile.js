@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Button, Form, Container, Modal, Row, Col } from 'react-bootstrap';
 import EmailValidator from 'email-validator';
 import { FleetBackend } from './api/FleetBackend';
+import './styles/Containers.css';
 
 class Profile extends Component {
 	constructor(props) {
@@ -81,14 +82,13 @@ class Profile extends Component {
 	};
 	render() {
 		return (
-			<Container>
+			<Container className='mainContainer'>
 				<Container>
-					<Row style={{marginTop: '10px'}}>
+					<Row>
 						<Col>
-							<h1 class='text-center'>Update Profile</h1>
-						</Col>
-						<Col class="pull-right">
-							<Button onClick={this.handleShow}>Edit</Button>
+							<h1 class='text-center'>
+								<u>Update Profile</u>
+							</h1>
 						</Col>
 					</Row>
 					<Row>
@@ -99,6 +99,11 @@ class Profile extends Component {
 					<Row>
 						<Col>
 							<h2>Name: {this.state.name}</h2>
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							<Button onClick={this.handleShow}>Edit</Button>
 						</Col>
 					</Row>
 				</Container>

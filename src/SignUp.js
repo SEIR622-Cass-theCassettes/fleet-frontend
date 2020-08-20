@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Form, Button, Container, Col, Row } from 'react-bootstrap';
 import { FleetBackend } from './api/FleetBackend';
 import EmailValidator from 'email-validator';
+import './styles/Containers.css';
 
 class SignUp extends Component {
 	constructor() {
@@ -40,10 +41,12 @@ class SignUp extends Component {
 
 	render() {
 		return (
-			<Container>
+			<Container className='mainContainer'>
 				<Row>
 					<Col>
-						<h1 className='text-center'>Create Profile</h1>
+						<h1 className='text-center underline'>
+							<u>Create Profile</u>
+						</h1>
 					</Col>
 				</Row>
 				<Form onSubmit={this.handleSubmit}>

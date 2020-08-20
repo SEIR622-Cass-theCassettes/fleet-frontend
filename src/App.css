@@ -1,7 +1,7 @@
-.container.app{
-  max-width: 100%;
-  padding-left: 0px;
-  padding-right: 0px;
+.container.app {
+	max-width: 100%;
+	padding-left: 0px;
+	padding-right: 0px;
 }
 
 .header.container {
@@ -15,7 +15,7 @@
 }
 
 .header p {
-  text-decoration: underline;
-  color: black;
-  padding-right: 10px;
+	text-decoration: underline;
+	color: black;
+	padding-right: 10px;
 }

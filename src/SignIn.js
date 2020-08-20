@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { FleetBackend } from './api/FleetBackend';
 import { Form, Button, Container, Col, Row } from 'react-bootstrap';
 import EmailValidator from 'email-validator';
+import './styles/Containers.css';
 
 class SignIn extends Component {
 	constructor(props) {
@@ -40,10 +41,12 @@ class SignIn extends Component {
 
 	render() {
 		return (
-			<Container>
+			<Container className='mainContainer'>
 				<Row>
 					<Col>
-						<h1 className='text-center'>Login</h1>
+						<h1 className='text-center'>
+							<u>Login</u>
+						</h1>
 					</Col>
 				</Row>
 				<Form onSubmit={this.handleSubmit}>
@@ -76,7 +79,7 @@ class SignIn extends Component {
 						</Form.Group>
 					</Form.Row>
 					{this.state.error && (
-						<Row style={{marginBottom: "8px"}}>
+						<Row style={{ marginBottom: '8px' }}>
 							<Col style={{ color: 'red' }}>Login Failed</Col>
 						</Row>
 					)}
