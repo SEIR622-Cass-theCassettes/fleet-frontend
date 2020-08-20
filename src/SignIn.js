@@ -1,14 +1,15 @@
 // Create a page or modal that when clicked allows a user to enter their email and password and it allows them to be logged in.
 import React, { Component } from 'react';
 import { FleetBackend } from './api/FleetBackend';
-import { Redirect } from 'react-router-dom';
+import { Form, Button, Container, Col, Row } from 'react-bootstrap';
+import EmailValidator from 'email-validator';
 
 class SignIn extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			email: '',
-			password: '',
+			email: undefined,
+			password: undefined,
 			error: false,
 			errorMessage: undefined,
 		};
@@ -38,33 +39,54 @@ class SignIn extends Component {
 	};
 
 	render() {
-		const { email, password } = this.state;
 		return (
-			<form onSubmit={this.handleSubmit}>
-				<label htmlFor='email'>Email</label>
-				<input
-					name='email'
-					type='text'
-					placeholder='Enter your email'
-					value={email}
-					onChange={this.handleChange}
-				/>
-				<label htmlFor='email'>Password</label>
-				<input
-					name='password'
-					type='password'
-					placeholder='Enter your password'
-					value={password}
-					onChange={this.handleChange}
-				/>
-				<button type='submit'>Login</button>
-				{this.state.error && (
-					<div style={{ color: 'red' }}>{this.state.errorMessage}</div>
-				)}
-			</form>
+			<Container>
+				<Row>
+					<Col>
+						<h1 className='text-center'>Login</h1>
+					</Col>
+				</Row>
+				<Form onSubmit={this.handleSubmit}>
+					<Form.Row>
+						<Form.Group controlId='email'>
+							<Form.Label>Email</Form.Label>
+							<Form.Control
+								type='text'
+								placeholder='Email'
+								required
+								name='email'
+								isInvalid={
+									this.state.email !== undefined &&
+									!EmailValidator.validate(this.state.email)
+								}
+								onChange={this.handleChange}
+							/>
+						</Form.Group>
+					</Form.Row>
+					<Form.Row>
+						<Form.Group controlId='password'>
+							<Form.Label>Password</Form.Label>
+							<Form.Control
+								type='password'
+								placeholder='Password'
+								required
+								name='password'
+								onChange={this.handleChange}
+							/>
+						</Form.Group>
+					</Form.Row>
+					{this.state.error && (
+						<Row style={{marginBottom: "8px"}}>
+							<Col style={{ color: 'red' }}>Login Failed</Col>
+						</Row>
+					)}
+					<Button variant='primary' type='submit'>
+						Submit
+					</Button>
+				</Form>
+			</Container>
 		);
 	}
-
 }
 
 export default SignIn;
