@@ -21,7 +21,7 @@ class App extends Component {
 	}
 
 	logOff = () => {
-		sessionStorage.removeItem('userInfo');
+		sessionStorage.removeItem('token');
 		sessionStorage.removeItem('userEmail');
 		this.setState({ userInfo: undefined, userEmail: undefined });
 	};
@@ -97,7 +97,7 @@ class App extends Component {
 					<Route
 						path='/myProfile'
 						render={() => {
-							return <Profile return />;
+							return <Profile userEmail={this.state.userEmail} />;
 						}}
 					/>
 					<Route
