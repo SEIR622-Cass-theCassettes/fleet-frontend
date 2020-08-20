@@ -71,21 +71,7 @@ class App extends Component {
 									<Link to='/'>
 										<img src={logo} alt='fleet logo'></img>
 									</Link>
-									{navBar()}
-									<Link to='/signIn'>
-										<p>Sign in</p>
-									</Link>
-									<Link to='/trucks'>
-										<p>My Trucks</p>
-									</Link>
-									<Link to='/myProfile'>
-										<p>My Profile</p>
-									</Link>
-									<p>Log Off</p>
-									<Link to='/about-us'>
-										<p>About Us</p>
-									</Link>									
-									{navBar()}
+									{navBar()}								
 								</Nav>
 							</Navbar>
 						</Col>
