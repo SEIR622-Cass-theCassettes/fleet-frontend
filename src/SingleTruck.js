@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { FleetBackend } from './api/FleetBackend';
+import  Notes  from './Notes';
 import { Container, Row, Col, Form } from 'react-bootstrap';
 import Numeral from 'numeral';
 import './styles/Containers.css';
@@ -171,6 +172,7 @@ class SingleTruck extends Component {
 									<p>Last Users: {this.state.truck.lastUsers}</p>
 								</Col>
 							</Row>
+              <Notes notes={this.props.notes} newNotes={this.props.newNotes}/>
 							<Row>
 								<Col>
 									<Button onClick={this.handleTruckEditShow}>Edit Truck</Button>
