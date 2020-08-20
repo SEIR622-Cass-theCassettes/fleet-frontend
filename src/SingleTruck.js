@@ -1,16 +1,19 @@
-
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { FleetBackend } from './api/FleetBackend';
-import { Container} from 'react-bootstrap';
 import  Notes  from './Notes';
+import { Container, Row, Col, Form } from 'react-bootstrap';
+import Numeral from 'numeral';
+import './styles/Containers.css';
+
 class SingleTruck extends Component {
 	constructor() {
 		super();
 		this.state = {
 			truck: undefined,
 			newTruck: undefined,
-			show: false,
+			showTruck: false,
+			newMileage: undefined,
 		};
 	}
 
@@ -18,14 +21,20 @@ class SingleTruck extends Component {
 		FleetBackend()
 			.get(`trucks/${this.props.match.params.vim}`)
 			.then((results) => {
-				this.setState({ truck: results.data });
+				FleetBackend()
+					.get(`mileage/${results.data['_id']}/latest`)
+					.then((mileage) => {
+						let truck = results.data;
+						truck.mileage = mileage.data.mileage;
+						this.setState({ truck: truck });
+					});
 			})
 			.catch((err) => {
 				console.error(err);
 			});
 	}
 
-	handleChange = (event) => {
+	handleTruckChange = (event) => {
 		let newTruck = this.state.newTruck;
 		newTruck[event.target.name] = event.target.value;
 		this.setState({
@@ -33,21 +42,35 @@ class SingleTruck extends Component {
 		});
 	};
 
-	handleSubmit = (event) => {
+	handleTruckSubmit = (event) => {
 		event.preventDefault();
 		FleetBackend()
 			.put(`trucks/${this.props.match.params.vim}`, this.state.newTruck)
 			.then((results) => {
-				this.handleClose();
+				this.handleTruckEditHide();
 				this.setState({ truck: results.data });
+				FleetBackend()
+					.get(`mileage/${results.data['_id']}/latest`)
+					.then((mileage) => {
+						let truck = results.data;
+						truck.mileage = mileage.data.mileage;
+						this.setState({ truck: truck });
+					});
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 	};
 
-	handleClose = () => this.setState({ show: false });
-	handleShow = () => {
+	handleMileageChange = (event) => {
+		this.setState({
+			newMileage: event.target.value,
+		});
+	};
+
+	handleTruckEditHide = () => this.setState({ showTruck: false });
+
+	handleTruckEditShow = () => {
 		if (this.state.newTruck === undefined) {
 			let newTruck = {};
 			Object.keys(this.state.truck).map((key) => {
@@ -55,120 +78,299 @@ class SingleTruck extends Component {
 			});
 			this.setState({ newTruck: newTruck });
 		}
-		this.setState({ show: true });
+		this.setState({ showTruck: true });
+	};
+
+	handleMileageSubmit = (event) => {
+		event.preventDefault();
+		FleetBackend()
+			.get(`users/${this.props.userEmail}`)
+			.then((user) => {
+				FleetBackend()
+					.post(`mileage`, {
+						truck: this.state.truck['_id'],
+						mileage: this.state.newMileage,
+						user: user['_id'],
+					})
+					.then((results) => {
+						this.handleMileageEditHide();
+						let truck = this.state.truck;
+						truck.mileage = this.state.newMileage;
+						this.setState({truck : truck});
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			});
+	};
+
+	handleMileageEditHide = () => this.setState({ showMileage: false });
+
+	handleMileageEditShow = () => {
+		if (this.state.newMileage === undefined) {
+			this.setState({ newMileage: parseInt(this.state.truck.mileage) });
+		}
+		this.setState({ showMileage: true });
 	};
 
 	render() {
 		return (
-			<Container className='info'>
+			<Container className='info mainContainer'>
 				{this.state.truck !== undefined && (
 					<Container>
 						<Container>
-							<h2>Truck Name: {this.state.truck.name}</h2>
-							<p>Vin: {this.state.truck.vin}</p>
-							<p>Make: {this.state.truck.make}</p>
-							<p>Model: {this.state.truck.model}</p>
-							<p>Plate: {this.state.truck.plate}</p>
-							<p>Status: {this.state.truck.status}</p>
-							<p>Last Serviced: {this.state.truck.lastServiced}</p>
-							<p>Service Due: {this.state.truck.serviceDue}</p>
-							<p>Last Users: {this.state.truck.lastUsers}</p>
-							<button onClick={this.handleShow}>edit truck</button>
-							<Notes notes={this.props.notes} newNotes={this.props.newNotes}/>
+							<Row>
+								<Col>
+									<h2>Truck Name: {this.state.truck.name}</h2>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<p>Vin: {this.state.truck.vin}</p>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<p>Make: {this.state.truck.make}</p>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<p>Model: {this.state.truck.model}</p>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<p>Plate: {this.state.truck.plate}</p>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<p>Status: {this.state.truck.status}</p>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<p>
+										Current Mileage:{' '}
+										{Numeral(this.state.truck.mileage).format('0,0')}
+									</p>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<p>Last Serviced: {this.state.truck.lastServiced}</p>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<p>Service Due: {this.state.truck.serviceDue}</p>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<p>Last Users: {this.state.truck.lastUsers}</p>
+								</Col>
+							</Row>
+              <Notes notes={this.props.notes} newNotes={this.props.newNotes}/>
+							<Row>
+								<Col>
+									<Button onClick={this.handleTruckEditShow}>Edit Truck</Button>
+								</Col>
+								<Col>
+									<Button
+										variant='secondary'
+										onClick={this.handleMileageEditShow}>
+										Update Mileage
+									</Button>
+								</Col>
+							</Row>
 						</Container>
 						{this.state.newTruck !== undefined && (
 							<Container>
-								<Modal show={this.state.show} onHide={this.handleClose}>
+								<Modal
+									show={this.state.showTruck}
+									onHide={this.handleTruckEditHide}>
 									<Modal.Header closeButton>
 										<Modal.Title>Edit Vehicle</Modal.Title>
 									</Modal.Header>
 									<Modal.Body>
-										<form onSubmit={this.handleSubmit}>
-											<label htmlFor='name'>Name</label>
-											<input
-												type='text'
-												id='name'
-												name='name'
-												value={this.state.newTruck.name}
-												onChange={this.handleChange}></input>
-											<br />
-											<label htmlFor='vin'>Vin</label>
-											<input
-												type='text'
-												id='vin'
-												value={this.state.newTruck.vin}
-												name='vin'
-												onChange={this.handleChange}></input>
-											<br />
-											<label htmlFor='make'>Make</label>
-											<input
-												type='text'
-												id='make'
-												value={this.state.newTruck.make}
-												name='make'
-												onChange={this.handleChange}></input>
-											<br />
-											<label htmlFor='model'>Model</label>
-											<input
-												type='text'
-												id='model'
-												name='model'
-												value={this.state.newTruck.model}
-												onChange={this.handleChange}></input>
-											<br />
-											<label htmlFor='plate'>Plate</label>
-											<input
-												type='text'
-												id='plate'
-												name='plate'
-												value={this.state.newTruck.plate}
-												onChange={this.handleChange}></input>
-											<br />
-											<label htmlFor='status'>Status</label>
-											<input
-												type='text'
-												id='status'
-												name='status'
-												value={this.state.newTruck.status}
-												onChange={this.handleChange}></input>
-											<br />
-											<label htmlFor='lastServiced'>Last Service</label>
-											<input
-												type='date'
-												id='lastServiced'
-												name='lastServiced'
-												value={this.state.newTruck.lastServiced}
-												onChange={this.handleChange}></input>
-											<br />
-											<label htmlFor='serviceDue'>Service Due</label>
-											<input
-												type='date'
-												id='serviceDue'
-												name='serviceDue'
-												value={this.state.newTruck.serviceDue}
-												onChange={this.handleChange}></input>
-											<br />
-											<label htmlFor='lastUser'>Last User</label>
-											<input
-												type='text'
-												id='lastUser'
-												name='lastUser'
-												value={this.state.newTruck.lastUser}
-												onChange={this.handleChange}></input>
-											<br />
-										</form>
+										<Form onSubmit={this.handleTruckSubmit}>
+											<Form.Row>
+												<Form.Group>
+													<Form.Label>Name</Form.Label>
+													<Form.Control
+														type='text'
+														placeholder='Truck Name'
+														required
+														value={this.state.newTruck.name}
+														name='name'
+														onChange={this.handleTruckChange}
+													/>
+												</Form.Group>
+											</Form.Row>
+											<Form.Row>
+												<Form.Group>
+													<Form.Label>Vin</Form.Label>
+													<Form.Control
+														type='text'
+														placeholder='Vin'
+														required
+														value={this.state.newTruck.vin}
+														name='vin'
+														onChange={this.handleTruckChange}
+													/>
+												</Form.Group>
+											</Form.Row>
+											<Form.Row>
+												<Form.Group>
+													<Form.Label>Make</Form.Label>
+													<Form.Control
+														type='text'
+														placeholder='Make'
+														value={this.state.newTruck.make}
+														name='make'
+														onChange={this.handleTruckChange}
+													/>
+												</Form.Group>
+											</Form.Row>
+											<Form.Row>
+												<Form.Group>
+													<Form.Label>Model</Form.Label>
+													<Form.Control
+														type='text'
+														placeholder='Model'
+														value={this.state.newTruck.model}
+														name='model'
+														onChange={this.handleTruckChange}
+													/>
+												</Form.Group>
+											</Form.Row>
+											<Form.Row>
+												<Form.Group>
+													<Form.Label>Plate</Form.Label>
+													<Form.Control
+														type='text'
+														placeholder='Plate'
+														value={this.state.newTruck.plate}
+														name='plate'
+														onChange={this.handleTruckChange}
+													/>
+												</Form.Group>
+											</Form.Row>
+											<Form.Row>
+												<Form.Group>
+													<Form.Label>Status</Form.Label>
+													<Form.Control
+														as='select'
+														value={this.state.newTruck.status}
+														onChange={this.handleTruckChange}
+														name='status'
+														placeholder='Status'>
+														<option>Ready</option>
+														<option>Out</option>
+														<option>Waiting Repairs</option>
+														<option>Being Repaired</option>
+														<option>Inoperable</option>
+													</Form.Control>
+												</Form.Group>
+											</Form.Row>
+											<Form.Row>
+												<Form.Group>
+													<Form.Label>Last Service</Form.Label>
+													<Form.Control
+														type='date'
+														placeholder='Last Serviced'
+														value={this.state.newTruck.lastServiced}
+														name='lastServiced'
+														id='lastServiced'
+														onChange={this.handleTruckChange}
+													/>
+												</Form.Group>
+											</Form.Row>
+											<Form.Row>
+												<Form.Group>
+													<Form.Label>Service Due</Form.Label>
+													<Form.Control
+														type='date'
+														placeholder='Service Due'
+														value={this.state.newTruck.serviceDue}
+														name='serviceDue'
+														id='serviceDue'
+														onChange={this.handleTruckChange}
+													/>
+												</Form.Group>
+											</Form.Row>
+											<Form.Row>
+												<Form.Group>
+													<Form.Label>Last User</Form.Label>
+													<Form.Control
+														type='text'
+														placeholder='Last User'
+														value={this.state.newTruck.lastUser}
+														name='lastUser'
+														id='lastUser'
+														onChange={this.handleTruckChange}
+													/>
+												</Form.Group>
+											</Form.Row>
+										</Form>
 									</Modal.Body>
 									<Modal.Footer>
-										<Button type='submit' onClick={this.handleSubmit}>
+										<Button type='submit' onClick={this.handleTruckSubmit}>
 											Submit
 										</Button>
-										<Button variant='secondary' onClick={this.handleClose}>
+										<Button
+											variant='secondary'
+											onClick={this.handleTruckEditHide}>
 											Close
 										</Button>
 									</Modal.Footer>
 								</Modal>
 							</Container>
 						)}
+
+						{
+							//Millage modal
+							this.state.truck !== undefined && (
+								<Container>
+									<Modal
+										show={this.state.showMileage}
+										onHide={this.handleMileageEditHide}>
+										<Modal.Header closeButton>
+											<Modal.Title>Update Milage</Modal.Title>
+										</Modal.Header>
+										<Modal.Body>
+											<Form onSubmit={this.handleMileageSubmit}>
+												<Form.Row>
+													<Form.Group>
+														<Form.Label>Name</Form.Label>
+														<Form.Control
+															type='number'
+															placeholder='Milage'
+															required
+															value={this.state.newMileage}
+															name='newMilage'
+															onChange={this.handleMileageChange}
+														/>
+													</Form.Group>
+												</Form.Row>
+											</Form>
+										</Modal.Body>
+										<Modal.Footer>
+											<Button type='submit' onClick={this.handleMileageSubmit}>
+												Submit
+											</Button>
+											<Button
+												variant='secondary'
+												onClick={this.handleMileageEditHide}>
+												Close
+											</Button>
+										</Modal.Footer>
+									</Modal>
+								</Container>
+							)
+						}
 					</Container>
 				)}
 			</Container>

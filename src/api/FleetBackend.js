@@ -6,7 +6,11 @@ const backendUrl = process.env.REACT_APP_IS_LOCAL
 
 function FleetBackend() {
 	return axios.create({
-		baseURL: backendUrl,
+		baseURL: backendUrl, 
+		headers: {
+			'Authorization':'Bearer '+ sessionStorage.getItem('token')
+		}
 	});
 }
+
 export { FleetBackend };

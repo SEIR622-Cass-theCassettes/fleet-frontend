@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './About.css';
-import SemiTruck from './semi-drive.jpg'
-import BabyTruck from './baby-truck.jpg'
+import SemiTruck from './semi-drive.jpg';
+import BabyTruck from './baby-truck.jpg';
 class About extends Component {
 	render() {
 		return (
@@ -36,13 +36,14 @@ class About extends Component {
 				<h3>Our Values</h3>
 				<p>
 					Here at Fleet we are dedicated to making your life just a little bit
-					easier. You already have enough on your plate running a business. Our goal is to make sure your vehicles operate as smoothly as possible.
+					easier. You already have enough on your plate running a business. Our
+					goal is to make sure your vehicles operate as smoothly as possible.
 				</p>
 				<h3>How Much Is Fleet?</h3>
 				<p>As much as you're willing to pay me.</p>
-                <h3>How Can I Contact Fleet For Issues or Suggestions?</h3>
-                <p>Email: fleet@fleet.fleet</p>
-                <p>Phone: 1-800-fleet</p>
+				<h3>How Can I Contact Fleet For Issues or Suggestions?</h3>
+				<p>Email: fleet@fleet.fleet</p>
+				<p>Phone: 1-800-fleet</p>
 			</div>
 		);
 	}
