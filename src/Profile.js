@@ -62,7 +62,6 @@ class Profile extends Component {
 			newUser.password !== undefined ||
 			sessionStorage.getItem('userEmail') !== newUser.email;
 
-			console.log(newUser);
 		FleetBackend()
 			.put(`users/${this.state.id}`, newUser)
 			.then((results) => {
@@ -84,6 +83,14 @@ class Profile extends Component {
 		return (
 			<Container>
 				<Container>
+					<Row style={{marginTop: '10px'}}>
+						<Col>
+							<h1 class='text-center'>Update Profile</h1>
+						</Col>
+						<Col class="pull-right">
+							<Button onClick={this.handleShow}>Edit</Button>
+						</Col>
+					</Row>
 					<Row>
 						<Col>
 							<h2>Email: {this.state.email}</h2>
@@ -93,9 +100,6 @@ class Profile extends Component {
 						<Col>
 							<h2>Name: {this.state.name}</h2>
 						</Col>
-					</Row>
-					<Row>
-						<Button onClick={this.handleShow}>Edit</Button>
 					</Row>
 				</Container>
 				<Container>
