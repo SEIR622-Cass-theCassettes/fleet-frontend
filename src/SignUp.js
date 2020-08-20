@@ -50,7 +50,6 @@ class SignUp extends Component {
 					value={name}
 					onChange={this.handleChange}
 				/>
-
 				<label htmlFor='email'>Enter your email</label>
 				<input
 					id='email'
