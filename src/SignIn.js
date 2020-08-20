@@ -1,6 +1,7 @@
 // Create a page or modal that when clicked allows a user to enter their email and password and it allows them to be logged in.
 import React, { Component } from 'react';
 import { FleetBackend } from './api/FleetBackend';
+import { Redirect } from 'react-router-dom';
 
 class SignIn extends Component {
 	constructor(props) {
@@ -27,11 +28,12 @@ class SignIn extends Component {
 				password: this.state.password,
 			})
 			.then((response) => {
-				this.setState({ error: false });
-				window.location = '/users/signIn';
+				sessionStorage.setItem('token', response.data.token);
+				sessionStorage.setItem('userEmail', this.state.email);
+				window.location = '/';
 			})
 			.catch((error) => {
-				this.setState({ error: true, errorMessage: error.response.data });
+				this.setState({ error: true, errorMessage: 'Login Failed' });
 			});
 	};
 
