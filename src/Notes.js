@@ -25,7 +25,7 @@ class Notes extends Component {
 		let newNote = this.state.newNote;
 		newNote[event.target.name] = event.target.value;
 		this.setState({
-			newNotes: newNotes,
+			newNotes: this.newNotes,
 		});
 	};
 
@@ -43,8 +43,22 @@ class Notes extends Component {
 	};
 
 	render() {
-		return <div></div>;
+		return (
+			<div>
+				<span>Notes: {this.state.notes}</span>
+				<form>
+					<label htmlFor='notes'>Add Notes:</label>
+					<input
+						type='text'
+						id='newNotes'
+						name='newNotes'
+						value={this.state.newNotes}
+						onChange={this.handleChange}
+					/>
+					<button onClick={this.handleSubmit}>Submit Notes</button>
+				</form>
+			</div>
+		);
 	}
 }
-
 export default Notes;

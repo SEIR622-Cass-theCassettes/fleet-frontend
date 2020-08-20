@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { FleetBackend } from './api/FleetBackend';
 import { Container} from 'react-bootstrap';
+import { Notes } from './Notes';
 class SingleTruck extends Component {
 	constructor() {
 		super();
@@ -73,6 +74,7 @@ class SingleTruck extends Component {
 							<p>Service Due: {this.state.truck.serviceDue}</p>
 							<p>Last Users: {this.state.truck.lastUsers}</p>
 							<button onClick={this.handleShow}>edit truck</button>
+							<Notes notes={this.props.notes} newNotes={this.props.newNotes}/>
 						</Container>
 						{this.state.newTruck !== undefined && (
 							<Container>
