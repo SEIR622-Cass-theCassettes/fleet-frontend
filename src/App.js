@@ -5,27 +5,30 @@ import Home from './Home';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Profile from './Profile';
-import About from './About'
-import SingleTruck from './SingleTruck'
-import TruckList from './TruckList'
+import About from './About';
+import SingleTruck from './SingleTruck';
+import TruckList from './TruckList';
 import { Nav, Container, Row, Col, Navbar } from 'react-bootstrap';
 import logo from './fleetlogos.png';
+
 class App extends Component {
 	constructor() {
 		super();
 		this.state = {
-			token: undefined,
+			token: sessionStorage.getItem('token'),
+			userEmail: sessionStorage.getItem('userEmail'),
 		};
 	}
 
-	setToken(token) {
-		this.setState({ token: token });
-	}
+	logOff = () => {
+		sessionStorage.removeItem('userInfo');
+		sessionStorage.removeItem('userEmail');
+		this.setState({ userInfo: undefined, userEmail: undefined });
+	};
 
 	render() {
-		let token = this.state.token
-		const navBar = ()=> {
-			if (token === undefined) {
+		const navBar = () => {
+			if (this.state.userEmail === undefined || this.state.userEmail === null) {
 				return (
 					<Container>
 						<Link to='/about-us'>
@@ -51,11 +54,13 @@ class App extends Component {
 						<Link to='/myProfile'>
 							<p>My Profile</p>
 						</Link>
-						<p>Log Off</p>
+						<Link to='/'>
+							<p onClick={this.logOff}>Log Off</p>
+						</Link>
 					</Container>
 				);
 			}
-		}
+		};
 		return (
 			<Container className='app'>
 				<Container className='header'>
@@ -83,7 +88,9 @@ class App extends Component {
 					<Route
 						path='/signIn'
 						render={() => {
-							return <SignIn setToken={this.setToken} />;
+							return (
+								<SignIn setToken={this.setToken} history={this.state.history} />
+							);
 						}}
 					/>
 

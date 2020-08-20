@@ -1,14 +1,17 @@
 // Make a page that will allow a user to enter their email and password so they can create an account, allow users to add their first and last name
 import React, { Component } from 'react';
+import { Form, Button } from 'react-bootstrap';
 import { FleetBackend } from './api/FleetBackend';
+import EmailValidator from 'email-validator';
+import { Redirect } from 'react-router-dom';
 
 class SignUp extends Component {
 	constructor() {
 		super();
 		this.state = {
-			name: '',
-			email: '',
-			password: '',
+			name: undefined,
+			email: undefined,
+			password: undefined,
 			error: false,
 			errorMessage: undefined,
 		};
@@ -20,7 +23,7 @@ class SignUp extends Component {
 		});
 	};
 
-	handleSubmit(event) {
+	handleSubmit = (event) => {
 		event.preventDefault();
 		FleetBackend()
 			.post('users/signup', {
@@ -29,50 +32,105 @@ class SignUp extends Component {
 				password: this.state.password,
 			})
 			.then((response) => {
-				console.log(response);
-				this.setState({ error: false });
+				window.location = '/signIn';
 			})
 			.catch((error) => {
 				this.setState({ error: true, errorMessage: error.response.data });
 			});
-	}
+	};
 
 	render() {
-		const { name, email, password } = this.state;
 		return (
-			<form onSubmit={this.handleSubmit}>
-				<label htmlFor='name'>Enter your full name</label>
-				<input
-					id='name'
-					name='name'
-					type='text'
-					placeholder='Enter your name'
-					value={name}
-					onChange={this.handleChange}
-				/>
+			<Form onSubmit={this.handleSubmit}>
+				<Form.Group controlId='name'>
+					<Form.Label>Enter your Full Name</Form.Label>
+					<Form.Control
+						type='text'
+						placeholder='Full Name'
+						required
+						name='name'
+						onChange={this.handleChange}
+					/>
+				</Form.Group>
+				<Form.Group controlId='email'>
+					<Form.Label>Email</Form.Label>
+					<Form.Control
+						type='text'
+						placeholder='Email'
+						required
+						name='email'
+						isInvalid={
+							this.state.email !== undefined &&
+							!EmailValidator.validate(this.state.email)
+						}
+						onChange={this.handleChange}
+					/>
+					<Form.Text className='text-muted'>
+						We'll never share your email with anyone else.
+					</Form.Text>
+				</Form.Group>
+				<Form.Group controlId='password'>
+					<Form.Label>Password</Form.Label>
+					<Form.Control
+						type='password'
+						placeholder='Password'
+						required
+						name='password'
+						onChange={this.handleChange}
+					/>
+				</Form.Group>
+				<Form.Group controlId='passwordConfirm'>
+					<Form.Label>Password Confirm</Form.Label>
+					<Form.Control
+						type='password'
+						placeholder='Password Confirm'
+						required
+						name='passwordConfirm'
+						onChange={this.handleChange}
+						isInvalid={
+							this.state.passwordConfirm !== undefined &&
+							this.state.password !== this.state.passwordConfirm
+						}
+					/>
+				</Form.Group>
+				<Button variant='primary' type='submit'>
+					Submit
+				</Button>
+			</Form>
 
-				<label htmlFor='email'>Enter your email</label>
-				<input
-					id='email'
-					name='email'
-					type='email'
-					placeholder='Enter your email'
-					value={email}
-					onChange={this.handleChange}
-				/>
+			// <form >
+			// 	<label htmlFor='name'></label>
+			// 	<input
+			// 		id='name'
+			// 		name='name'
+			// 		type='text'
+			// 		placeholder='Enter your name'
+			// 		value={name}
+			// 		onChange={this.handleChange}
+			// 	/>
 
-				<label htmlFor='password'>Enter your password</label>
-				<input
-					id='password'
-					name='password'
-					type='text'
-					placeholder='Enter your password'
-					value={password}
-					onChange={this.handleChange}
-				/>
+			// 	<label htmlFor='email'>Enter your email</label>
+			// 	<input
+			// 		id='email'
+			// 		name='email'
+			// 		type='email'
+			// 		placeholder='Enter your email'
+			// 		value={email}
+			// 		onChange={this.handleChange}
+			// 	/>
 
-				<button type='submit'>Create account</button>
-			</form>
+			// 	<label htmlFor='password'>Enter your password</label>
+			// 	<input
+			// 		id='password'
+			// 		name='password'
+			// 		type='text'
+			// 		placeholder='Enter your password'
+			// 		value={password}
+			// 		onChange={this.handleChange}
+			// 	/>
+
+			// 	<button type='submit'>Create account</button>
+			// </form>
 		);
 	}
 }
