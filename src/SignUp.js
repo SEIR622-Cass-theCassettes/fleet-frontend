@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { FleetBackend } from './api/FleetBackend';
 import EmailValidator from 'email-validator';
-import { Redirect } from 'react-router-dom';
 
 class SignUp extends Component {
 	constructor() {
@@ -97,40 +96,6 @@ class SignUp extends Component {
 					Submit
 				</Button>
 			</Form>
-
-			// <form >
-			// 	<label htmlFor='name'></label>
-			// 	<input
-			// 		id='name'
-			// 		name='name'
-			// 		type='text'
-			// 		placeholder='Enter your name'
-			// 		value={name}
-			// 		onChange={this.handleChange}
-			// 	/>
-
-			// 	<label htmlFor='email'>Enter your email</label>
-			// 	<input
-			// 		id='email'
-			// 		name='email'
-			// 		type='email'
-			// 		placeholder='Enter your email'
-			// 		value={email}
-			// 		onChange={this.handleChange}
-			// 	/>
-
-			// 	<label htmlFor='password'>Enter your password</label>
-			// 	<input
-			// 		id='password'
-			// 		name='password'
-			// 		type='text'
-			// 		placeholder='Enter your password'
-			// 		value={password}
-			// 		onChange={this.handleChange}
-			// 	/>
-
-			// 	<button type='submit'>Create account</button>
-			// </form>
 		);
 	}
 }

@@ -120,6 +120,8 @@ class App extends Component {
 					/>
 					<Route path='/signUp' render={() => <SignUp />} />
 				</Container>
+				<Route exact path='/users/signup' render={() => <SignUp />} />
+				<Route exact path='/users/signin' render={() => <SignIn />} />
 			</Container>
 		);
 	}
