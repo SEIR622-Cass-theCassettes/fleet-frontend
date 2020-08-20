@@ -66,12 +66,13 @@ class TruckList extends Component {
 							<Card key={id}>
 								<Card.Body className='p-6 mb-6 bg-warning text-white text-xl-center'>
 									<Card.Text className='text-white'>
-										<p>Truck Name {truck.vin}</p>
-										<Link
-											className='text-white'
-											exact
-											to={`/trucks/SingleTruck/:vin`}>
-											<p>see more on details on this truck</p>
+										<p>Truck Name {truck.name}</p>
+										<p>Truck make {truck.make}</p>
+										<p>Truck modal {truck.model}</p>
+										<Link className='text-white' exact to={'/SingleTruck/:vim'}>
+											<p className='text-warning'>
+												see more on details on this truck
+											</p>
 											<img src={truckimage} className='img-fluid' alt='truck' />
 										</Link>
 									</Card.Text>
@@ -82,13 +83,11 @@ class TruckList extends Component {
 				</CardColumns>
 				<Container>
 					<Button
-						className='shadow p-3 mb-5 bg-white rounded'
+						className='shadow p-3 mb-5 rounded'
 						onClick={() => {
 							this.handleShow();
 						}}>
-                            
 						add a new truck to the list yo
-                    
 					</Button>
 				</Container>
 				{this.state.newTruck !== undefined && (
