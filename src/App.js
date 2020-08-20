@@ -28,7 +28,7 @@ class App extends Component {
 	};
 
 	getTitle = () => {
-		let title = 'Fleet';
+		let title = document.title;
 		if (process.env.REACT_APP_BACKEND_URL === undefined) {
 			title += ' local';
 		} else if (process.env.REACT_APP_BACKEND_URL.contains('dev')) {
