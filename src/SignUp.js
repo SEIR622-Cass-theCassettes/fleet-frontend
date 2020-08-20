@@ -44,7 +44,9 @@ class SignUp extends Component {
 			<Container className='mainContainer'>
 				<Row>
 					<Col>
-						<h1 className='text-center underline'>Create Profile</h1>
+						<h1 className='text-center underline'>
+							<u>Create Profile</u>
+						</h1>
 					</Col>
 				</Row>
 				<Form onSubmit={this.handleSubmit}>
