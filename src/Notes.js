@@ -12,51 +12,72 @@ class Notes extends Component {
 
 	componentDidMount() {
 		FleetBackend()
-			.get(`truck/${this.props.match.params.id}`)
-			.then((results) => {
-				this.setState({ notes: results.data });
-			})
-			.catch((err) => {
-				console.error(err);
+			.get(`/notes/truck/${this.props.truck}`)
+			.then((notes) => {
+				console.log(notes);
+				let newNotes = notes.data.map((note) => {
+					return note.message;
+				});
+				this.setState({ notes: newNotes });
 			});
 	}
 
 	handleChange = (event) => {
-		let newNote = this.state.newNote;
-		newNote[event.target.name] = event.target.value;
+		let newMessage = event.target.value;
 		this.setState({
-			newNotes: this.newNotes,
+			newMessage: newMessage,
 		});
 	};
 
 	handleSubmit = (event) => {
 		event.preventDefault();
+		console.log(event)
 		FleetBackend()
-			.post(this.state.newNotes)
-			.then((results) => {
-				this.handleClose();
-				this.setState({ newNotes: results.data });
-			})
-			.catch((error) => {
-				console.log(error);
+			.get(`/users/${sessionStorage.getItem('userEmail')}`)
+			.then((user) => {
+				FleetBackend()
+					.post('/notes', {
+						user: user['_id'],
+						message: this.state.newMessage,
+						truck: this.props.truck,
+					})
+					.then((results) => {
+						FleetBackend()
+							.get(`/notes/truck/${this.props.truck}`)
+							.then((notes) => {
+								console.log(notes);
+								let newNotes = notes.data.map((note) => {
+									return note.message;
+								});
+								this.setState({ notes: newNotes, newMessage: '' });
+							});
+					})
+					.catch((error) => {
+						console.log(error);
+					});
 			});
 	};
 
 	render() {
 		return (
 			<div>
-				<span>Notes: {this.state.notes}</span>
 				<form>
 					<label htmlFor='notes'>Add Notes:</label>
 					<input
 						type='text'
 						id='newNotes'
 						name='newNotes'
-						value={this.state.newNotes}
+						value={this.state.newMessage}
 						onChange={this.handleChange}
 					/>
 					<button onClick={this.handleSubmit}>Submit Notes</button>
 				</form>
+				<span>
+					Notes:{' '}
+					{this.state.notes.map((note) => {
+						return <p>{note}</p>;
+					})}
+				</span>
 			</div>
 		);
 	}
