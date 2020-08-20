@@ -27,9 +27,8 @@ class SignIn extends Component {
 				password: this.state.password,
 			})
 			.then((response) => {
-				console.log(response);
-				this.props.setToken(response);
 				this.setState({ error: false });
+				window.location = '/users/signIn';
 			})
 			.catch((error) => {
 				this.setState({ error: true, errorMessage: error.response.data });
