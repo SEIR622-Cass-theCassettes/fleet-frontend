@@ -11,7 +11,8 @@ class SingleTruck extends Component {
 		this.state = {
 			truck: undefined,
 			newTruck: undefined,
-			show: false,
+			showTruck: false,
+			newMileage: undefined,
 		};
 	}
 
@@ -23,7 +24,7 @@ class SingleTruck extends Component {
 					.get(`mileage/${results.data['_id']}/latest`)
 					.then((mileage) => {
 						let truck = results.data;
-						truck.mileage = Numeral(mileage.data.mileage).format('0,0');
+						truck.mileage = mileage.data.mileage;
 						this.setState({ truck: truck });
 					});
 			})
@@ -47,13 +48,26 @@ class SingleTruck extends Component {
 			.then((results) => {
 				this.handleTruckEditHide();
 				this.setState({ truck: results.data });
+				FleetBackend()
+					.get(`mileage/${results.data['_id']}/latest`)
+					.then((mileage) => {
+						let truck = results.data;
+						truck.mileage = mileage.data.mileage;
+						this.setState({ truck: truck });
+					});
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 	};
 
-	handleTruckEditHide = () => this.setState({ show: false });
+	handleMileageChange = (event) => {
+		this.setState({
+			newMileage: event.target.value,
+		});
+	};
+
+	handleTruckEditHide = () => this.setState({ showTruck: false });
 
 	handleTruckEditShow = () => {
 		if (this.state.newTruck === undefined) {
@@ -63,7 +77,39 @@ class SingleTruck extends Component {
 			});
 			this.setState({ newTruck: newTruck });
 		}
-		this.setState({ show: true });
+		this.setState({ showTruck: true });
+	};
+
+	handleMileageSubmit = (event) => {
+		event.preventDefault();
+		FleetBackend()
+			.get(`users/${this.props.userEmail}`)
+			.then((user) => {
+				FleetBackend()
+					.post(`mileage`, {
+						truck: this.state.truck['_id'],
+						mileage: this.state.newMileage,
+						user: user['_id'],
+					})
+					.then((results) => {
+						this.handleMileageEditHide();
+						let truck = this.state.truck;
+						truck.mileage = this.state.newMileage;
+						this.setState({truck : truck});
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			});
+	};
+
+	handleMileageEditHide = () => this.setState({ showMileage: false });
+
+	handleMileageEditShow = () => {
+		if (this.state.newMileage === undefined) {
+			this.setState({ newMileage: parseInt(this.state.truck.mileage) });
+		}
+		this.setState({ showMileage: true });
 	};
 
 	render() {
@@ -104,7 +150,10 @@ class SingleTruck extends Component {
 							</Row>
 							<Row>
 								<Col>
-									<p>Current Mileage: {this.state.truck.mileage}</p>
+									<p>
+										Current Mileage:{' '}
+										{Numeral(this.state.truck.mileage).format('0,0')}
+									</p>
 								</Col>
 							</Row>
 							<Row>
@@ -126,11 +175,20 @@ class SingleTruck extends Component {
 								<Col>
 									<Button onClick={this.handleTruckEditShow}>Edit Truck</Button>
 								</Col>
+								<Col>
+									<Button
+										variant='secondary'
+										onClick={this.handleMileageEditShow}>
+										Update Mileage
+									</Button>
+								</Col>
 							</Row>
 						</Container>
 						{this.state.newTruck !== undefined && (
 							<Container>
-								<Modal show={this.state.show} onHide={this.handleTruckEditHide}>
+								<Modal
+									show={this.state.showTruck}
+									onHide={this.handleTruckEditHide}>
 									<Modal.Header closeButton>
 										<Modal.Title>Edit Vehicle</Modal.Title>
 									</Modal.Header>
@@ -202,12 +260,17 @@ class SingleTruck extends Component {
 												<Form.Group>
 													<Form.Label>Status</Form.Label>
 													<Form.Control
-														type='text'
-														placeholder='Status'
+														as='select'
 														value={this.state.newTruck.status}
-														name='status'
 														onChange={this.handleTruckChange}
-													/>
+														name='status'
+														placeholder='Status'>
+														<option>Ready</option>
+														<option>Out</option>
+														<option>Waiting Repairs</option>
+														<option>Being Repaired</option>
+														<option>Inoperable</option>
+													</Form.Control>
 												</Form.Group>
 											</Form.Row>
 											<Form.Row>
@@ -255,13 +318,57 @@ class SingleTruck extends Component {
 										<Button type='submit' onClick={this.handleTruckSubmit}>
 											Submit
 										</Button>
-										<Button variant='secondary' onClick={this.handleTruckEditHide}>
+										<Button
+											variant='secondary'
+											onClick={this.handleTruckEditHide}>
 											Close
 										</Button>
 									</Modal.Footer>
 								</Modal>
 							</Container>
 						)}
+
+						{
+							//Millage modal
+							this.state.truck !== undefined && (
+								<Container>
+									<Modal
+										show={this.state.showMileage}
+										onHide={this.handleMileageEditHide}>
+										<Modal.Header closeButton>
+											<Modal.Title>Update Milage</Modal.Title>
+										</Modal.Header>
+										<Modal.Body>
+											<Form onSubmit={this.handleMileageSubmit}>
+												<Form.Row>
+													<Form.Group>
+														<Form.Label>Name</Form.Label>
+														<Form.Control
+															type='number'
+															placeholder='Milage'
+															required
+															value={this.state.newMileage}
+															name='newMilage'
+															onChange={this.handleMileageChange}
+														/>
+													</Form.Group>
+												</Form.Row>
+											</Form>
+										</Modal.Body>
+										<Modal.Footer>
+											<Button type='submit' onClick={this.handleMileageSubmit}>
+												Submit
+											</Button>
+											<Button
+												variant='secondary'
+												onClick={this.handleMileageEditHide}>
+												Close
+											</Button>
+										</Modal.Footer>
+									</Modal>
+								</Container>
+							)
+						}
 					</Container>
 				)}
 			</Container>

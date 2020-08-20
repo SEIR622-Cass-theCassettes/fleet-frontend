@@ -71,7 +71,7 @@ class App extends Component {
 									<Link to='/'>
 										<img src={logo} alt='fleet logo'></img>
 									</Link>
-									{navBar()}								
+									{navBar()}
 								</Nav>
 							</Navbar>
 						</Col>
@@ -109,7 +109,12 @@ class App extends Component {
 					<Route
 						path='/SingleTruck/:vim'
 						render={(routerProps) => {
-							return <SingleTruck match={routerProps.match} />;
+							return (
+								<SingleTruck
+									match={routerProps.match}
+									userEmail={this.state.userEmail}
+								/>
+							);
 						}}
 					/>
 					<Route
