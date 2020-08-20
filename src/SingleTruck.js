@@ -172,7 +172,7 @@ class SingleTruck extends Component {
 									<p>Last Users: {this.state.truck.lastUsers}</p>
 								</Col>
 							</Row>
-              <Notes notes={this.props.notes} newNotes={this.props.newNotes}/>
+              <Notes truck={this.state.truck['_id']} />
 							<Row>
 								<Col>
 									<Button onClick={this.handleTruckEditShow}>Edit Truck</Button>
