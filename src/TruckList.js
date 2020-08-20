@@ -41,7 +41,9 @@ class TruckList extends Component {
 			.post('/trucks', this.state.newTruck)
 			.then((results) => {
 				this.handleClose();
-				this.setState({ truck: results.data });
+				let trucks = this.state.truck;
+				trucks.push(results.data)
+				this.setState({ truck: trucks });
 			})
 			.catch((error) => {
 				console.log(error);
