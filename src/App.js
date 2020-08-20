@@ -31,7 +31,7 @@ class App extends Component {
 		let title = document.title;
 		if (process.env.REACT_APP_BACKEND_URL === undefined) {
 			title += ' local';
-		} else if (process.env.REACT_APP_BACKEND_URL.contains('dev')) {
+		} else if (process.env.REACT_APP_BACKEND_URL.includes('dev')) {
 			title += ' dev';
 		}
 		return title;
