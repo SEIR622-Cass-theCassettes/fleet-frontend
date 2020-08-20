@@ -1,145 +1,379 @@
-// Using react bootstrap: https://git.generalassemb.ly/seir-622/react-bootstrap create a single truck display. Using the truck id found in the url show the trucks information. It's image, status, make, model. At the bottom of the page there should be a button labeled: "Edit truck" clicking on it should open a modal prepopulated with the trucks current data. The model should have the same fields as the create truck modal (reuse maybe?) including an "X" button in the corner that will close the modal without saving any data.
-
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { FleetBackend } from './api/FleetBackend';
+import  Notes  from './Notes';
+import { Container, Row, Col, Form } from 'react-bootstrap';
+import Numeral from 'numeral';
+import './styles/Containers.css';
+
 class SingleTruck extends Component {
 	constructor() {
 		super();
 		this.state = {
-			truck: null,
-			show: false,
+			truck: undefined,
+			newTruck: undefined,
+			showTruck: false,
+			newMileage: undefined,
 		};
 	}
 
-	// componentDidMount() {
-	// 	fetch(`where ever the hell the trucks are`)
-	// 		.then((results) => results.json())
-	// 		.then((results) => {
-	// 			this.setState({ truck: results });
-	// 		})
-	// 		.catch((err) => {
-	// 			console.error(err);
-	// 		});
-	// }
-	render() {
-        const handleChange = ((event) => {
-            	this.setState({
-								[event.target.name]: event.target.value,
-							});
-        });
+	componentDidMount() {
+		FleetBackend()
+			.get(`trucks/${this.props.match.params.vim}`)
+			.then((results) => {
+				FleetBackend()
+					.get(`mileage/${results.data['_id']}/latest`)
+					.then((mileage) => {
+						let truck = results.data;
+						truck.mileage = mileage.data.mileage;
+						this.setState({ truck: truck });
+					});
+			})
+			.catch((err) => {
+				console.error(err);
+			});
+	}
 
-	const handleSubmit = (event) => {
-        event.preventDefault()
-		console.log('Submitting');
-		console.log(this.state);
+	handleTruckChange = (event) => {
+		let newTruck = this.state.newTruck;
+		newTruck[event.target.name] = event.target.value;
+		this.setState({
+			newTruck: newTruck,
+		});
 	};
-		const handleClose = () => this.setState({ show: false });
-		const handleShow = () => this.setState({ show: true });
-	
-		return (
-			<div className='info'>
-				{/* this is what will end up being used once everything is set up */}
-				{/* <h2>Truck Name: {this.state.truck.name}</h2> */}
-				{/* <p>Vin: {this.state.truck.vin}</p> */}
-				{/* <p>Make: {this.state.truck.make}</p> */}
-				{/* <p>Model: {this.state.truck.model}</p> */}
-				{/* <p>Plate: {this.state.truck.plate}</p> */}
-				{/* <p>Status: {this.state.truck.status}</p> */}
-				{/* <p>Last Serviced: {this.state.truck.lastServiced}</p> */}
-				{/* <p>Service Due: {this.state.truck.serviceDue}</p> */}
-				{/* <p>Last Users: {this.state.truck.lastUsers}</p> */}
-				<h2>Truck Name: test</h2>
-				<p>Vin: test</p>
-				<p>Make: test</p>
-				<p>Model: test</p>
-				<p>Plate: test</p>
-				<p>Status: test</p>
-				<p>Last Serviced: test</p>
-				<p>Service Due: test</p>
-				<p>Last Users: test</p>
-				<button onClick={handleShow}>edit truck</button>
 
-				<div>
-					<Modal show={this.state.show} onHide={handleClose}>
-						<Modal.Header closeButton>
-							<Modal.Title>Edit Vehicle</Modal.Title>
-						</Modal.Header>
-						<Modal.Body>
-							<form onSubmit={handleSubmit}>
-								<label htmlFor='name'>Name</label>
-								<input
-									type='text'
-									id='name'
-									name='name'
-									onChange={handleChange}></input>
-								<br />
-								<label htmlFor='vin'>Vin</label>
-								<input
-									type='text'
-									id='vin'
-									name='vin'
-									onChange={handleChange}></input>
-								<br />
-								<label htmlFor='make'>Make</label>
-								<input
-									type='text'
-									id='make'
-									name='make'
-									onChange={handleChange}></input>
-								<br />
-								<label htmlFor='model'>Model</label>
-								<input
-									type='text'
-									id='model'
-									name='model'
-									onChange={handleChange}></input>
-								<br />
-								<label htmlFor='plate'>Plate</label>
-								<input
-									type='text'
-									id='plate'
-									name='plate'
-									onChange={handleChange}></input>
-								<br />
-								<label htmlFor='status'>Status</label>
-								<input
-									type='text'
-									id='status'
-									name='status'
-									onChange={handleChange}></input>
-								<br />
-								<label htmlFor='lastServiced'>Last Service</label>
-								<input
-									type='text'
-									id='lastServiced'
-									name='lastServiced'
-									onChange={handleChange}></input>
-								<br />
-								<label htmlFor='serviceDue'>Service Due</label>
-								<input
-									type='text'
-									id='serviceDue'
-									name='serviceDue'
-									onChange={handleChange}></input>
-								<br />
-								<label htmlFor='lastUser'>Last User</label>
-								<input
-									type='text'
-									id='lastUser'
-									name='lastUser'
-									onChange={handleChange}></input>
-								<br />
-								<input type='submit' />
-							</form>
-						</Modal.Body>
-						<Modal.Footer>
-							<Button variant='secondary' onClick={handleClose}/>
-								Close Without saving
-							<Modal.Title>Modal heading</Modal.Title>
-						</Modal.Footer>
-					</Modal>
-				</div>
-			</div>
+	handleTruckSubmit = (event) => {
+		event.preventDefault();
+		FleetBackend()
+			.put(`trucks/${this.props.match.params.vim}`, this.state.newTruck)
+			.then((results) => {
+				this.handleTruckEditHide();
+				this.setState({ truck: results.data });
+				FleetBackend()
+					.get(`mileage/${results.data['_id']}/latest`)
+					.then((mileage) => {
+						let truck = results.data;
+						truck.mileage = mileage.data.mileage;
+						this.setState({ truck: truck });
+					});
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	handleMileageChange = (event) => {
+		this.setState({
+			newMileage: event.target.value,
+		});
+	};
+
+	handleTruckEditHide = () => this.setState({ showTruck: false });
+
+	handleTruckEditShow = () => {
+		if (this.state.newTruck === undefined) {
+			let newTruck = {};
+			Object.keys(this.state.truck).map((key) => {
+				newTruck[key] = this.state.truck[key];
+			});
+			this.setState({ newTruck: newTruck });
+		}
+		this.setState({ showTruck: true });
+	};
+
+	handleMileageSubmit = (event) => {
+		event.preventDefault();
+		FleetBackend()
+			.get(`users/${this.props.userEmail}`)
+			.then((user) => {
+				FleetBackend()
+					.post(`mileage`, {
+						truck: this.state.truck['_id'],
+						mileage: this.state.newMileage,
+						user: user['_id'],
+					})
+					.then((results) => {
+						this.handleMileageEditHide();
+						let truck = this.state.truck;
+						truck.mileage = this.state.newMileage;
+						this.setState({truck : truck});
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			});
+	};
+
+	handleMileageEditHide = () => this.setState({ showMileage: false });
+
+	handleMileageEditShow = () => {
+		if (this.state.newMileage === undefined) {
+			this.setState({ newMileage: parseInt(this.state.truck.mileage) });
+		}
+		this.setState({ showMileage: true });
+	};
+
+	render() {
+		return (
+			<Container className='info mainContainer'>
+				{this.state.truck !== undefined && (
+					<Container>
+						<Container>
+							<Row>
+								<Col>
+									<h2>Truck Name: {this.state.truck.name}</h2>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<p>Vin: {this.state.truck.vin}</p>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<p>Make: {this.state.truck.make}</p>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<p>Model: {this.state.truck.model}</p>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<p>Plate: {this.state.truck.plate}</p>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<p>Status: {this.state.truck.status}</p>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<p>
+										Current Mileage:{' '}
+										{Numeral(this.state.truck.mileage).format('0,0')}
+									</p>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<p>Last Serviced: {this.state.truck.lastServiced}</p>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<p>Service Due: {this.state.truck.serviceDue}</p>
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<p>Last Users: {this.state.truck.lastUsers}</p>
+								</Col>
+							</Row>
+              <Notes truck={this.state.truck['_id']} />
+							<Row>
+								<Col>
+									<Button onClick={this.handleTruckEditShow}>Edit Truck</Button>
+								</Col>
+								<Col>
+									<Button
+										variant='secondary'
+										onClick={this.handleMileageEditShow}>
+										Update Mileage
+									</Button>
+								</Col>
+							</Row>
+						</Container>
+						{this.state.newTruck !== undefined && (
+							<Container>
+								<Modal
+									show={this.state.showTruck}
+									onHide={this.handleTruckEditHide}>
+									<Modal.Header closeButton>
+										<Modal.Title>Edit Vehicle</Modal.Title>
+									</Modal.Header>
+									<Modal.Body>
+										<Form onSubmit={this.handleTruckSubmit}>
+											<Form.Row>
+												<Form.Group>
+													<Form.Label>Name</Form.Label>
+													<Form.Control
+														type='text'
+														placeholder='Truck Name'
+														required
+														value={this.state.newTruck.name}
+														name='name'
+														onChange={this.handleTruckChange}
+													/>
+												</Form.Group>
+											</Form.Row>
+											<Form.Row>
+												<Form.Group>
+													<Form.Label>Vin</Form.Label>
+													<Form.Control
+														type='text'
+														placeholder='Vin'
+														required
+														value={this.state.newTruck.vin}
+														name='vin'
+														onChange={this.handleTruckChange}
+													/>
+												</Form.Group>
+											</Form.Row>
+											<Form.Row>
+												<Form.Group>
+													<Form.Label>Make</Form.Label>
+													<Form.Control
+														type='text'
+														placeholder='Make'
+														value={this.state.newTruck.make}
+														name='make'
+														onChange={this.handleTruckChange}
+													/>
+												</Form.Group>
+											</Form.Row>
+											<Form.Row>
+												<Form.Group>
+													<Form.Label>Model</Form.Label>
+													<Form.Control
+														type='text'
+														placeholder='Model'
+														value={this.state.newTruck.model}
+														name='model'
+														onChange={this.handleTruckChange}
+													/>
+												</Form.Group>
+											</Form.Row>
+											<Form.Row>
+												<Form.Group>
+													<Form.Label>Plate</Form.Label>
+													<Form.Control
+														type='text'
+														placeholder='Plate'
+														value={this.state.newTruck.plate}
+														name='plate'
+														onChange={this.handleTruckChange}
+													/>
+												</Form.Group>
+											</Form.Row>
+											<Form.Row>
+												<Form.Group>
+													<Form.Label>Status</Form.Label>
+													<Form.Control
+														as='select'
+														value={this.state.newTruck.status}
+														onChange={this.handleTruckChange}
+														name='status'
+														placeholder='Status'>
+														<option>Ready</option>
+														<option>Out</option>
+														<option>Waiting Repairs</option>
+														<option>Being Repaired</option>
+														<option>Inoperable</option>
+													</Form.Control>
+												</Form.Group>
+											</Form.Row>
+											<Form.Row>
+												<Form.Group>
+													<Form.Label>Last Service</Form.Label>
+													<Form.Control
+														type='date'
+														placeholder='Last Serviced'
+														value={this.state.newTruck.lastServiced}
+														name='lastServiced'
+														id='lastServiced'
+														onChange={this.handleTruckChange}
+													/>
+												</Form.Group>
+											</Form.Row>
+											<Form.Row>
+												<Form.Group>
+													<Form.Label>Service Due</Form.Label>
+													<Form.Control
+														type='date'
+														placeholder='Service Due'
+														value={this.state.newTruck.serviceDue}
+														name='serviceDue'
+														id='serviceDue'
+														onChange={this.handleTruckChange}
+													/>
+												</Form.Group>
+											</Form.Row>
+											<Form.Row>
+												<Form.Group>
+													<Form.Label>Last User</Form.Label>
+													<Form.Control
+														type='text'
+														placeholder='Last User'
+														value={this.state.newTruck.lastUser}
+														name='lastUser'
+														id='lastUser'
+														onChange={this.handleTruckChange}
+													/>
+												</Form.Group>
+											</Form.Row>
+										</Form>
+									</Modal.Body>
+									<Modal.Footer>
+										<Button type='submit' onClick={this.handleTruckSubmit}>
+											Submit
+										</Button>
+										<Button
+											variant='secondary'
+											onClick={this.handleTruckEditHide}>
+											Close
+										</Button>
+									</Modal.Footer>
+								</Modal>
+							</Container>
+						)}
+
+						{
+							//Millage modal
+							this.state.truck !== undefined && (
+								<Container>
+									<Modal
+										show={this.state.showMileage}
+										onHide={this.handleMileageEditHide}>
+										<Modal.Header closeButton>
+											<Modal.Title>Update Milage</Modal.Title>
+										</Modal.Header>
+										<Modal.Body>
+											<Form onSubmit={this.handleMileageSubmit}>
+												<Form.Row>
+													<Form.Group>
+														<Form.Label>Name</Form.Label>
+														<Form.Control
+															type='number'
+															placeholder='Milage'
+															required
+															value={this.state.newMileage}
+															name='newMilage'
+															onChange={this.handleMileageChange}
+														/>
+													</Form.Group>
+												</Form.Row>
+											</Form>
+										</Modal.Body>
+										<Modal.Footer>
+											<Button type='submit' onClick={this.handleMileageSubmit}>
+												Submit
+											</Button>
+											<Button
+												variant='secondary'
+												onClick={this.handleMileageEditHide}>
+												Close
+											</Button>
+										</Modal.Footer>
+									</Modal>
+								</Container>
+							)
+						}
+					</Container>
+				)}
+			</Container>
 		);
 	}
 }
