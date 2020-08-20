@@ -38,7 +38,7 @@ class TruckList extends Component {
 	handleSubmit = (event) => {
 		event.preventDefault();
 		FleetBackend()
-			.post('trucks/new', this.state.newTruck)
+			.post('/trucks', this.state.newTruck)
 			.then((results) => {
 				this.handleClose();
 				this.setState({ truck: results.data });
