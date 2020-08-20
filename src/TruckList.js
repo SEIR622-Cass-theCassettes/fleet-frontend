@@ -69,7 +69,7 @@ class TruckList extends Component {
 										<p>Truck Name {truck.name}</p>
 										<p>Truck make {truck.make}</p>
 										<p>Truck modal {truck.model}</p>
-										<Link className='text-white' exact to={'/SingleTruck/:vim'}>
+										<Link className='text-white' exact to={`/SingleTruck/${truck.vin}`}>
 											<p className='text-warning'>
 												see more on details on this truck
 											</p>
