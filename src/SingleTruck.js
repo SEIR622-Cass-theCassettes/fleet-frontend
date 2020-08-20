@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { FleetBackend } from './api/FleetBackend';
 import { Container} from 'react-bootstrap';
-import { Notes } from './Notes';
+import  Notes  from './Notes';
 class SingleTruck extends Component {
 	constructor() {
 		super();

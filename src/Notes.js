@@ -5,7 +5,7 @@ class Notes extends Component {
 	constructor() {
 		super();
 		this.state = {
-			notes: '',
+			notes: [],
 			newNotes: '',
 		};
 	}
