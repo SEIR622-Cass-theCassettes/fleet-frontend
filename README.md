@@ -41,6 +41,6 @@ Fleet is an application to assist companies in the management of their vehicles.
 
 This is intended to be a stand alone project, however feel free to reach out to discuss integrating it into another project.
 
-###Contribution Guidelines
+### Contribution Guidelines
 
 This is the [link](https://github.com/SEIR622-Cass-theCassettes/fleet-frontend) to the main repo. This [link](https://github.com/SEIR622-Cass-theCassettes/fleet-frontend/issues) leads to the issue tracker. If you would like to contribute, propose improvements, or identify bugs please submit an issue on the project.
