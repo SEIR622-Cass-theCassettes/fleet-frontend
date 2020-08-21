@@ -19,7 +19,7 @@ class TruckList extends Component {
 	}
 	componentDidMount() {
 		FleetBackend()
-			.get('/trucks')
+			.get(`/trucks/user/${sessionStorage.getItem('userEmail')}`)
 			.then((results) => {
 				this.setState({ truck: results.data });
 			})
@@ -64,6 +64,7 @@ class TruckList extends Component {
 				<CardColumns className ='fluid'>
 					{this.state.truck.map((truck, id) => {
 						return (
+
 							<Card
 								key={id}
 								className='card border-1 border-warning fluid shadow p-3 mb-5 rounded'>
@@ -75,12 +76,15 @@ class TruckList extends Component {
 										<p className='text-dark text-bold'> {truck.make}</p>
 										<h3 className='text-white bg-dark '>Truck modal</h3>
 										<p className='text-dark text-bold'> {truck.model}</p>
+
 										<Link
 											className='text-white'
 											exact
 											to={`/SingleTruck/${truck.vin}`}>
+
 											<p className='text-dark bg-warning'>
 												CLICK HERE FOR ALL DETAILS
+
 											</p>
 											<img src={truckimage} className='img-fluid' alt='truck' />
 										</Link>
