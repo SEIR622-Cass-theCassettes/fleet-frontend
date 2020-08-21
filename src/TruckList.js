@@ -2,11 +2,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import truckimage from './truck.png';
-import { Card, Container } from 'react-bootstrap';
+import { Card, Container, Form } from 'react-bootstrap';
 import { CardColumns } from 'react-bootstrap';
 import { FleetBackend } from './api/FleetBackend';
 import { Button } from 'react-bootstrap';
-import { Modal, InputGroup, FormControl } from 'react-bootstrap';
+import { Modal,  } from 'react-bootstrap';
 
 class TruckList extends Component {
 	constructor() {
@@ -42,7 +42,7 @@ class TruckList extends Component {
 			.then((results) => {
 				this.handleClose();
 				let trucks = this.state.truck;
-				trucks.push(results.data)
+				trucks.push(results.data);
 				this.setState({ truck: trucks });
 			})
 			.catch((error) => {
@@ -61,26 +61,33 @@ class TruckList extends Component {
 	render() {
 		return (
 			<>
-				<CardColumns>
+				<CardColumns className ='fluid'>
 					{this.state.truck.map((truck, id) => {
-						///maping through data to display information
 						return (
-							<Card key={id}>
-								<Card.Body className='p-6 mb-6 bg-warning text-white text-xl-center'>
-									<Card.Text className='text-white'>
-										<p>Truck Name {truck.name}</p>
-										<p>Truck make {truck.make}</p>
-										<p>Truck modal {truck.model}</p>
-										<Link className='text-white' exact to={`/SingleTruck/${truck.vin}`}>
-											<p className='text-warning'>
-												see more on details on this truck
+							<Card
+								key={id}
+								className='card border-1 border-warning fluid shadow p-3 mb-5 rounded'>
+								<Card.Body>
+									<Card.Text className='text-primary text-center text-bold'>
+										<h3 className='text-white bg-dark lg'>Truck Name</h3>
+										<p className='text-dark text-bold'>{truck.name}</p>
+										<h3 className='text-white bg-dark '>Truck make</h3>
+										<p className='text-dark text-bold'> {truck.make}</p>
+										<h3 className='text-white bg-dark '>Truck modal</h3>
+										<p className='text-dark text-bold'> {truck.model}</p>
+										<Link
+											className='text-white'
+											exact
+											to={`/SingleTruck/${truck.vin}`}>
+											<p className='text-dark bg-warning'>
+												CLICK HERE FOR ALL DETAILS
 											</p>
 											<img src={truckimage} className='img-fluid' alt='truck' />
 										</Link>
 									</Card.Text>
 								</Card.Body>
 							</Card>
-						); // list of chosen datasets plus link to take user to page
+						);
 					})}
 				</CardColumns>
 				<Container>
@@ -95,83 +102,106 @@ class TruckList extends Component {
 				{this.state.newTruck !== undefined && (
 					<Modal show={this.state.show} onHide={this.handleClose}>
 						<Modal.Header closeButton>
-							<Modal.Title>Add a new Truck to your Fleet</Modal.Title>
+							<Modal.Title className='text-center'>
+								Add a new Truck to your Fleet
+							</Modal.Title>
 						</Modal.Header>
 						<Modal.Body>
-							<form onSubmit={this.handleSubmit}>
-								<label htmlFor='name'>Name</label>
-								<input
+							<Form.Group onSubmit={this.handleSubmit}>
+								<Form.Control
+									size='lg'
 									type='text'
+									placeholder='New Truck Name'
 									id='name'
 									name='name'
 									value={this.state.newTruck.name}
-									onChange={this.handleChange}></input>
+									onChange={this.handleChange}
+								/>
+
 								<br />
-								<label htmlFor='vin'>Vin</label>
-								<input
+								<Form.Control
+									size='lg'
+									placeholder='Vin'
 									type='text'
 									id='vin'
 									value={this.state.newTruck.vin}
 									name='vin'
-									onChange={this.handleChange}></input>
+									onChange={this.handleChange}
+								/>
 								<br />
-								<label htmlFor='make'>Make</label>
-								<input
+								<Form.Control
+									size='lg'
+									placeholder='Make'
 									type='text'
 									id='make'
 									value={this.state.newTruck.make}
 									name='make'
-									onChange={this.handleChange}></input>
+									onChange={this.handleChange}
+								/>
 								<br />
-								<label htmlFor='model'>Model</label>
-								<input
+								<Form.Control
+									size='lg'
+									placeholder='Model'
 									type='text'
 									id='model'
 									name='model'
 									value={this.state.newTruck.model}
-									onChange={this.handleChange}></input>
+									onChange={this.handleChange}
+								/>
 								<br />
-								<label htmlFor='plate'>Plate</label>
-								<input
+								<Form.Control
+									size='lg'
+									placeholder='Plate'
 									type='text'
 									id='plate'
 									name='plate'
 									value={this.state.newTruck.plate}
-									onChange={this.handleChange}></input>
+									onChange={this.handleChange}
+								/>
 								<br />
-								<label htmlFor='status'>Status</label>
-								<input
+
+								<Form.Control
+									size='lg'
+									placeholder='Status'
 									type='text'
 									id='status'
 									name='status'
 									value={this.state.newTruck.status}
-									onChange={this.handleChange}></input>
+									onChange={this.handleChange}
+								/>
 								<br />
-								<label htmlFor='lastServiced'>Last Service</label>
-								<input
+								<Form.Text>Date of Last Service</Form.Text>
+								<Form.Control
+									size='lg'
+									placeholder='date '
 									type='date'
 									id='lastServiced'
 									name='lastServiced'
 									value={this.state.newTruck.lastServiced}
-									onChange={this.handleChange}></input>
+									onChange={this.handleChange}
+								/>
 								<br />
-								<label htmlFor='serviceDue'>Service Due</label>
-								<input
+								<Form.Text>Service Due on</Form.Text>
+								<Form.Control
+									size='lg'
 									type='date'
 									id='serviceDue'
 									name='serviceDue'
 									value={this.state.newTruck.serviceDue}
-									onChange={this.handleChange}></input>
+									onChange={this.handleChange}
+								/>
 								<br />
-								<label htmlFor='lastUser'>Last User</label>
-								<input
+								<Form.Control
+									size='lg'
+									placeholder='Your Name'
 									type='text'
 									id='lastUser'
 									name='lastUser'
 									value={this.state.newTruck.lastUser}
-									onChange={this.handleChange}></input>
+									onChange={this.handleChange}
+								/>
 								<br />
-							</form>
+							</Form.Group>
 						</Modal.Body>
 						<Modal.Footer>
 							<Button

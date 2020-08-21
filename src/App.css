@@ -1,21 +1,22 @@
 .container.app {
 	max-width: 100%;
-	padding-left: 0px;
-	padding-right: 0px;
+	background-color:  #ffc107;
+
 }
 
 .header.container {
-	background-color: rgb(246, 213, 6);
-	text-align: center;
+	background-color: #ffc107;
 	max-width: 100%;
 }
 
 .links {
-	align-items: center;
+	text-transform: uppercase;
+	display: inline-block;
 }
 
 .header p {
-	text-decoration: underline;
+	font-size: 1.5em;
 	color: black;
-	padding-right: 10px;
+	padding: 1em;
+	letter-spacing: 0.1em;
 }
