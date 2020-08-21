@@ -41,7 +41,7 @@ class App extends Component {
 		const navBar = () => {
 			if (this.state.userEmail === undefined || this.state.userEmail === null) {
 				return (
-					<Container>
+					<Container >
 						<Link to='/about-us'>
 							<p>About Us</p>
 						</Link>
@@ -90,6 +90,10 @@ class App extends Component {
 						</Row>
 					</Container>
 					<Container>
+						<br>
+						
+						</br>
+						
 						<Route
 							exact
 							path='/'
@@ -108,7 +112,6 @@ class App extends Component {
 								);
 							}}
 						/>
-
 						<Route
 							path='/myProfile'
 							render={() => {

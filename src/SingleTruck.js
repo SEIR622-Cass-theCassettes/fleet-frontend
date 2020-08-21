@@ -172,7 +172,7 @@ class SingleTruck extends Component {
 									<p>Last Users: {this.state.truck.lastUsers}</p>
 								</Col>
 							</Row>
-              <Notes truck={this.state.truck['_id']} />
+							<Notes truck={this.state.truck['_id']} />
 							<Row>
 								<Col>
 									<Button onClick={this.handleTruckEditShow}>Edit Truck</Button>
@@ -305,6 +305,7 @@ class SingleTruck extends Component {
 												<Form.Group>
 													<Form.Label>Last User</Form.Label>
 													<Form.Control
+														size='lg'
 														type='text'
 														placeholder='Last User'
 														value={this.state.newTruck.lastUser}
@@ -346,6 +347,7 @@ class SingleTruck extends Component {
 													<Form.Group>
 														<Form.Label>Name</Form.Label>
 														<Form.Control
+															size='lg'
 															type='number'
 															placeholder='Milage'
 															required
