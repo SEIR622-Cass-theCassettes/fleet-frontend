@@ -1,22 +1,18 @@
 .container.app {
 	max-width: 100%;
-	background-color:  #ffc107;
-
 }
 
 .header.container {
-	background-color: #ffc107;
+	background-color:#ffc107;
+	text-align: center;
 	max-width: 100%;
 }
 
 .links {
-	text-transform: uppercase;
-	display: inline-block;
+	align-items: center;
 }
 
 .header p {
-	font-size: 1.5em;
 	color: black;
-	padding: 1em;
-	letter-spacing: 0.1em;
+	padding-right: 10px;
 }

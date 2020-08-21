@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-import { Card } from 'react-bootstrap';
+import { Card, Container} from 'react-bootstrap';
 import trucks from './trucks.jpg';
 import trucker1 from './trucker1.jpg';
 import trucker2 from './trucker2.jpg';
@@ -98,6 +98,21 @@ class Home extends Component {
 						</Card.Text>
 					</Card.Body>
 				</Card>
+				<Container className='bg-dark list-group-flush'>
+					<div className='bg-dark'>
+						<div className='footerContainer text-center'>
+							<div className='rows'>
+								<div className='col-m-4 py-4'>
+									<h4 className='text-light'>A note from the people behind fleet</h4>
+									<p class='text-muted'>
+										Thanks for taking the time to have a look around fleet and
+										its content. There will be more soon!
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</Container>
 			</>
 		);
 
