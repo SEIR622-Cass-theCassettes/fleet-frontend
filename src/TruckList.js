@@ -19,7 +19,7 @@ class TruckList extends Component {
 	}
 	componentDidMount() {
 		FleetBackend()
-			.get('/trucks')
+			.get(`/trucks/user/${sessionStorage.getItem('userEmail')}`)
 			.then((results) => {
 				this.setState({ truck: results.data });
 			})
@@ -42,7 +42,7 @@ class TruckList extends Component {
 			.then((results) => {
 				this.handleClose();
 				let trucks = this.state.truck;
-				trucks.push(results.data)
+				trucks.push(results.data);
 				this.setState({ truck: trucks });
 			})
 			.catch((error) => {
@@ -71,7 +71,10 @@ class TruckList extends Component {
 										<p>Truck Name {truck.name}</p>
 										<p>Truck make {truck.make}</p>
 										<p>Truck modal {truck.model}</p>
-										<Link className='text-white' exact to={`/SingleTruck/${truck.vin}`}>
+										<Link
+											className='text-white'
+											exact
+											to={`/SingleTruck/${truck.vin}`}>
 											<p className='text-warning'>
 												see more on details on this truck
 											</p>
